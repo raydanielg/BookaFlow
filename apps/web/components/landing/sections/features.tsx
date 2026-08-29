@@ -11,6 +11,7 @@ import {
   Link01Icon,
 } from "@hugeicons/core-free-icons"
 import { RevealOnScroll } from "@/components/landing/reveal-on-scroll"
+import { TextRotator } from "@/components/landing/text-rotator"
 
 const features: {
   number: string
@@ -66,7 +67,18 @@ export function Features() {
               Features
             </span>
             <h2 className="mt-6 text-3xl font-semibold tracking-tight text-balance sm:text-4xl lg:text-5xl">
-              Everything you need to run your booking business
+              Everything you need for
+              <br className="hidden sm:block" />
+              <TextRotator
+                phrases={[
+                  { text: "appointments", color: "text-primary" },
+                  { text: "scheduling", color: "text-primary" },
+                  { text: "staff management", color: "text-primary" },
+                  { text: "customer insights", color: "text-primary" },
+                  { text: "growing your business", color: "text-primary" },
+                ]}
+              />
+              .
             </h2>
           </div>
         </RevealOnScroll>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-const phrases = [
+const defaultPhrases = [
   { text: "salons", color: "text-primary" },
   { text: "clinics", color: "text-primary" },
   { text: "spas", color: "text-primary" },
@@ -11,7 +11,13 @@ const phrases = [
   { text: "wellness centers", color: "text-primary" },
 ]
 
-export function TextRotator() {
+export function TextRotator({
+  phrases = defaultPhrases,
+  intervalMs = 2800,
+}: {
+  phrases?: { text: string; color: string }[]
+  intervalMs?: number
+}) {
   const [index, setIndex] = useState(0)
   const [visible, setVisible] = useState(true)
 
@@ -22,9 +28,9 @@ export function TextRotator() {
         setIndex((prev) => (prev + 1) % phrases.length)
         setVisible(true)
       }, 400)
-    }, 2800)
+    }, intervalMs)
     return () => clearInterval(interval)
-  }, [])
+  }, [phrases.length, intervalMs])
 
   const current = phrases[index] ?? phrases[0]!
 
