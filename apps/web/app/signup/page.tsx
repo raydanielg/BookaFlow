@@ -1,7 +1,12 @@
-import { LoginForm } from "@workspace/ui/components/login-form"
+import { SignupForm } from "@workspace/ui/components/signup-form"
 import Image from "next/image"
 
-export default function AuthPage() {
+export const metadata = {
+  title: "BookaFlow — Sign up",
+  description: "Create your BookaFlow account.",
+}
+
+export default function SignupPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       {/* Left — branded panel */}
@@ -28,11 +33,11 @@ export default function AuthPage() {
         <div className="relative z-10 mt-auto space-y-6">
           <div className="space-y-3">
             <h2 className="max-w-md text-balance text-3xl font-bold leading-tight">
-              Manage your enterprise with confidence.
+              Join teams building the future.
             </h2>
             <p className="max-w-md text-balance text-primary-foreground/80">
-              One unified platform for analytics, operations, and growth — built
-              for teams that move fast.
+              Create your account and start managing your enterprise with
+              powerful tools designed for growth.
             </p>
           </div>
         </div>
@@ -41,7 +46,7 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* Right — auth form */}
+      {/* Right — signup form */}
       <div className="flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-sm">
           <div className="mb-8 flex items-center gap-2 lg:hidden">
@@ -54,7 +59,7 @@ export default function AuthPage() {
             />
             <span className="text-lg font-bold">BookaFlow</span>
           </div>
-          <LoginForm />
+          <SignupForm />
         </div>
       </div>
     </div>
