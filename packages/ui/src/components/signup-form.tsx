@@ -66,7 +66,7 @@ export function SignupForm({
         </a>
         <h1 className="text-xl font-bold">Create your account</h1>
         <FieldDescription>
-          Already have an account? <a href="/" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">Sign in</a>
+          Already have an account? <a href="/login" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">Sign in</a>
         </FieldDescription>
       </div>
 

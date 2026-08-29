@@ -63,7 +63,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-4", className)} {...props}>
       <div className="flex flex-col items-center gap-1.5 text-center">
         <a
-          href="#"
+          href="/"
           className="flex flex-col items-center gap-2 font-medium"
         >
           <div className="flex size-10 items-center justify-center rounded-lg">
