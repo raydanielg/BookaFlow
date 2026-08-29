@@ -5,6 +5,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { Button } from "@workspace/ui/components/button"
 import { NetworkBackground } from "@/components/landing/network-background"
+import { TextRotator } from "@/components/landing/text-rotator"
 
 export function Hero() {
   return (
@@ -21,13 +22,13 @@ export function Hero() {
               Booking & Scheduling Platform
             </span>
             <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-foreground text-balance sm:text-5xl lg:text-6xl animate-[fade-in_0.8s_ease-out_0.1s_both]">
-              Manage your bookings
+              The booking platform for
               <br className="hidden sm:block" />
-              <span className="text-primary"> like never before.</span>
+              <TextRotator />.
             </h1>
             <p className="max-w-xl text-lg text-muted-foreground text-pretty animate-[fade-in_0.8s_ease-out_0.2s_both]">
-              BookaFlow helps salons, clinics, spas, and gyms streamline
-              appointments, staff, and customers — all in one beautiful platform.
+              BookaFlow helps you streamline appointments, staff, and customers
+              — all in one beautiful platform built for modern businesses.
             </p>
           </div>
 
