@@ -12,6 +12,12 @@ import {
 import { Input } from "@workspace/ui/components/input"
 import { Checkbox } from "@workspace/ui/components/checkbox"
 import { toast } from "@workspace/ui/components/toast"
+import { HugeiconsIcon } from "@hugeicons/react"
+import {
+  MailCheckIcon,
+  CheckmarkCircle01Icon,
+  ArrowRight01Icon,
+} from "@hugeicons/core-free-icons"
 import { api } from "@workspace/ui/lib/api"
 
 export function SignupForm({
@@ -25,6 +31,8 @@ export function SignupForm({
   const [businessType, setBusinessType] = React.useState("")
   const [agree, setAgree] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+  const [success, setSuccess] = React.useState(false)
+  const [businessDisplayName, setBusinessDisplayName] = React.useState("")
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -39,13 +47,61 @@ export function SignupForm({
       })
       api.setToken(data.token)
       api.setBusinessId(data.business.id)
-      toast.add({ type: "success", title: "Account created!", description: `Welcome to ${data.business.name}.` })
-      window.location.href = "/dashboard"
+      setBusinessDisplayName(data.business.name)
+      setSuccess(true)
+      toast.add({
+        type: "success",
+        title: "Account created!",
+        description: `Welcome to ${data.business.name}. Check your email for a welcome message.`,
+      })
+      setTimeout(() => {
+        window.location.href = "/dashboard"
+      }, 3000)
     } catch (err) {
       toast.add({ type: "error", title: "Signup failed", description: err instanceof Error ? err.message : "Something went wrong" })
     } finally {
       setLoading(false)
     }
+  }
+
+  if (success) {
+    return (
+      <div className={cn("flex flex-col items-center gap-6 text-center", className)} {...props}>
+        <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
+          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-8 text-primary" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-bold tracking-tight">Account created!</h1>
+          <p className="text-sm text-muted-foreground text-pretty">
+            Welcome to <strong className="text-foreground">{businessDisplayName}</strong>.
+            Your booking platform is ready to go.
+          </p>
+        </div>
+        <div className="flex w-full items-start gap-3 rounded-xl border border-border bg-muted/30 p-4 text-left">
+          <HugeiconsIcon icon={MailCheckIcon} className="size-5 shrink-0 text-primary mt-0.5" />
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-medium text-foreground">Check your email</p>
+            <p className="text-xs text-muted-foreground text-pretty">
+              We&apos;ve sent a welcome message to <strong className="text-foreground">{email}</strong> with
+              your booking link and getting started guide.
+            </p>
+          </div>
+        </div>
+        <div className="flex w-full items-center justify-center gap-2 text-sm text-muted-foreground">
+          <span className="size-1.5 animate-pulse rounded-full bg-primary" />
+          Redirecting to dashboard...
+        </div>
+        <Button
+          size="lg"
+          className="w-full"
+          nativeButton={false}
+          render={<a href="/dashboard" />}
+        >
+          Go to dashboard
+          <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+        </Button>
+      </div>
+    )
   }
 
   return (
