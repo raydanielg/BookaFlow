@@ -71,7 +71,7 @@ export function Features() {
           </div>
         </RevealOnScroll>
 
-        <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px overflow-hidden rounded-xl border border-border bg-border grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, idx) => (
             <RevealOnScroll key={feature.number} delay={idx * 60} className="h-full">
               <div className="group flex h-full flex-col gap-4 bg-background p-8 transition-all duration-300 hover:bg-muted/30 hover:-translate-y-0.5">

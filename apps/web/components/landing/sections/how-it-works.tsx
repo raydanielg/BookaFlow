@@ -45,7 +45,7 @@ export function HowItWorks() {
           </div>
         </RevealOnScroll>
 
-        <div className="grid gap-6 lg:grid-cols-5">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
           {steps.map((step, idx) => (
             <RevealOnScroll key={step.number} delay={idx * 100}>
               <div className="group flex flex-col gap-4">

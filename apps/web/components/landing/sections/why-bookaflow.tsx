@@ -44,7 +44,7 @@ export function WhyBookaFlow() {
           </div>
         </RevealOnScroll>
 
-        <div className="grid gap-px overflow-hidden rounded-xl border border-background/8 bg-background/8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px overflow-hidden rounded-xl border border-background/8 bg-background/8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {reasons.map((reason, idx) => (
             <RevealOnScroll key={reason.title} delay={idx * 70}>
               <div className="flex h-full flex-col gap-3 bg-foreground p-8 transition-colors duration-300 hover:bg-background/[0.03]">

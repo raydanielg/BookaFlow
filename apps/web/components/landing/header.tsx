@@ -1,9 +1,15 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Menu01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons"
+import {
+  Menu01Icon,
+  ArrowRight01Icon,
+  Sun03Icon,
+  Moon02Icon,
+} from "@hugeicons/core-free-icons"
 import { Button } from "@workspace/ui/components/button"
 import {
   DropdownMenu,
@@ -18,6 +24,42 @@ const navLinks = [
   { label: "Industries", href: "/#industries" },
   { label: "Why BookaFlow", href: "/#why" },
 ]
+
+function ThemeToggle() {
+  const [isDark, setIsDark] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+    setIsDark(document.documentElement.classList.contains("dark"))
+  }, [])
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      aria-label="Toggle colour theme"
+      onClick={() => {
+        const next = !document.documentElement.classList.contains("dark")
+        document.documentElement.classList.toggle("dark", next)
+        document.documentElement.style.colorScheme = next ? "dark" : "light"
+        try {
+          window.localStorage.setItem("theme", next ? "dark" : "light")
+        } catch {
+          /* storage blocked */
+        }
+        setIsDark(next)
+      }}
+      className="text-muted-foreground"
+    >
+      {mounted && isDark ? (
+        <HugeiconsIcon icon={Sun03Icon} className="size-4" />
+      ) : (
+        <HugeiconsIcon icon={Moon02Icon} className="size-4" />
+      )}
+    </Button>
+  )
+}
 
 export function LandingHeader() {
   return (
@@ -49,7 +91,8 @@ export function LandingHeader() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle />
           <Link
             href="/login"
             className="text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
@@ -64,7 +107,8 @@ export function LandingHeader() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
+          <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger
               render={

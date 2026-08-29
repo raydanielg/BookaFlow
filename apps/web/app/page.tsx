@@ -2,9 +2,12 @@ import { LandingHeader } from "@/components/landing/header"
 import { LandingFooter } from "@/components/landing/footer"
 import { Hero } from "@/components/landing/sections/hero"
 import { TrustStrip } from "@/components/landing/sections/trust-strip"
+import { Stats } from "@/components/landing/sections/stats"
 import { Features } from "@/components/landing/sections/features"
+import { Benefits } from "@/components/landing/sections/benefits"
 import { HowItWorks } from "@/components/landing/sections/how-it-works"
 import { Industries } from "@/components/landing/sections/industries"
+import { Testimonials } from "@/components/landing/sections/testimonials"
 import { WhyBookaFlow } from "@/components/landing/sections/why-bookaflow"
 import { CTA } from "@/components/landing/sections/cta"
 
@@ -21,9 +24,12 @@ export default function LandingPage() {
       <main className="flex-1">
         <Hero />
         <TrustStrip />
+        <Stats />
         <Features />
+        <Benefits />
         <HowItWorks />
         <Industries />
+        <Testimonials />
         <WhyBookaFlow />
         <CTA />
       </main>
