@@ -64,9 +64,9 @@ export function SignupForm({
           </div>
           <span className="sr-only">BookaFlow</span>
         </a>
-        <h1 className="text-xl font-bold">Start your business</h1>
+        <h1 className="text-xl font-bold">Create your account</h1>
         <FieldDescription>
-          Already have an account? <a href="/">Sign in</a>
+          Already have an account? <a href="/" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">Sign in</a>
         </FieldDescription>
       </div>
 
@@ -102,9 +102,9 @@ export function SignupForm({
               id="businessType"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
-              className="flex h-11 w-full rounded-md border border-input bg-background px-3 text-base"
+              className="flex h-11 w-full rounded-md border border-input bg-background px-3 text-base focus:outline-none focus:ring-2 focus:ring-ring"
             >
-              <option value="">Select type...</option>
+              <option value="">Select business type...</option>
               <option value="SALON">Salon</option>
               <option value="CLINIC">Clinic</option>
               <option value="SPA">Spa</option>
@@ -149,11 +149,11 @@ export function SignupForm({
             />
             <FieldLabel htmlFor="terms" className="text-sm font-normal">
               I agree to the{" "}
-              <a href="#" className="underline underline-offset-4 hover:text-foreground">
+              <a href="#" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
                 Terms of Service
               </a>{" "}
               and{" "}
-              <a href="#" className="underline underline-offset-4 hover:text-foreground">
+              <a href="#" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
                 Privacy Policy
               </a>
             </FieldLabel>

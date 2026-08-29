@@ -33,11 +33,11 @@ export default function SignupPage() {
         <div className="relative z-10 mt-auto space-y-6">
           <div className="space-y-3">
             <h2 className="max-w-md text-balance text-3xl font-bold leading-tight">
-              Join teams building the future.
+              Start booking smarter today.
             </h2>
             <p className="max-w-md text-balance text-primary-foreground/80">
-              Create your account and start managing your enterprise with
-              powerful tools designed for growth.
+              Create your account and start managing appointments, staff, and
+              customers — all in one place.
             </p>
           </div>
         </div>
