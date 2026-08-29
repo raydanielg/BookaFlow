@@ -51,19 +51,6 @@ export function SignupForm({
   return (
     <div className={cn("flex flex-col gap-4", className)} {...props}>
       <div className="flex flex-col items-center gap-1.5 text-center">
-        <a
-          href="/"
-          className="flex flex-col items-center gap-2 font-medium"
-        >
-          <div className="flex size-10 items-center justify-center rounded-lg">
-            <img
-              src="/peercoin.png"
-              alt="BookaFlow"
-              className="size-8 rounded-lg object-cover"
-            />
-          </div>
-          <span className="sr-only">BookaFlow</span>
-        </a>
         <h1 className="text-xl font-bold">Create your account</h1>
         <FieldDescription>
           Already have an account? <a href="/login" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">Sign in</a>
