@@ -149,11 +149,11 @@ export function SignupForm({
             />
             <FieldLabel htmlFor="terms" className="text-sm font-normal">
               I agree to the{" "}
-              <a href="#" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
+              <a href="/terms" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
                 Terms of Service
               </a>{" "}
               and{" "}
-              <a href="#" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
+              <a href="/privacy" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
                 Privacy Policy
               </a>
             </FieldLabel>
