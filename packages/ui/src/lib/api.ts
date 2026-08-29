@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://178.104.240.146:4000/api"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.bookaflow.co.tz/api"
 
 function getToken() {
   if (typeof window === "undefined") return null
