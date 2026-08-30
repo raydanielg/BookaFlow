@@ -2,8 +2,8 @@ import { LoginForm } from "@workspace/ui/components/login-form"
 import Image from "next/image"
 
 export const metadata = {
-  title: "BookaFlow — Sign in",
-  description: "Sign in to your BookaFlow account.",
+  title: "BookMiadi — Sign in",
+  description: "Sign in to your BookMiadi account.",
 }
 
 export default function LoginPage() {
@@ -13,12 +13,12 @@ export default function LoginPage() {
         <div className="mb-8 flex flex-col items-center gap-3">
           <Image
             src="/peercoin.png"
-            alt="BookaFlow"
+            alt="BookMiadi"
             width={40}
             height={40}
             className="rounded-xl"
           />
-          <span className="text-xl font-bold tracking-tight">BookaFlow</span>
+          <span className="text-xl font-bold tracking-tight">BookMiadi</span>
         </div>
         <LoginForm />
       </div>

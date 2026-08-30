@@ -71,7 +71,7 @@ export function AppSidebar() {
                   <HugeiconsIcon icon={Calendar03Icon} className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">BookaFlow</span>
+                  <span className="truncate font-semibold">BookMiadi</span>
                   <span className="truncate text-xs text-muted-foreground">Booking Platform</span>
                 </div>
             </SidebarMenuButton>

@@ -13,8 +13,8 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata = {
-  title: "BookaFlow — Sign in",
-  description: "Sign in to your BookaFlow account.",
+  title: "BookMiadi — Sign in",
+  description: "Sign in to your BookMiadi account.",
 }
 
 export default function RootLayout({

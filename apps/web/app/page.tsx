@@ -7,13 +7,13 @@ import { Benefits } from "@/components/landing/sections/benefits"
 import { HowItWorks } from "@/components/landing/sections/how-it-works"
 import { Industries } from "@/components/landing/sections/industries"
 import { Testimonials } from "@/components/landing/sections/testimonials"
-import { WhyBookaFlow } from "@/components/landing/sections/why-bookaflow"
+import { WhyBookMiadi } from "@/components/landing/sections/why-BookMiadi"
 import { CTA } from "@/components/landing/sections/cta"
 
 export const metadata = {
-  title: "BookaFlow — Booking & Scheduling Platform",
+  title: "BookMiadi — Booking & Scheduling Platform",
   description:
-    "BookaFlow helps salons, clinics, spas, and gyms streamline appointments, staff, and customers — all in one beautiful platform.",
+    "BookMiadi helps salons, clinics, spas, and gyms streamline appointments, staff, and customers — all in one beautiful platform.",
 }
 
 export default function LandingPage() {
@@ -28,7 +28,7 @@ export default function LandingPage() {
         <HowItWorks />
         <Industries />
         <Testimonials />
-        <WhyBookaFlow />
+        <WhyBookMiadi />
         <CTA />
       </main>
       <LandingFooter />

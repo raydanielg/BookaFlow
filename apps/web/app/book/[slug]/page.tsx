@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
@@ -34,6 +35,7 @@ type BusinessInfo = {
 }
 
 export default function BookingPage({ params }: { params: { slug: string } }) {
+  const searchParams = useSearchParams()
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -55,10 +57,15 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
       setServices(data.services || [])
       setStaff(data.staff || [])
       setLoading(false)
+      const serviceParam = searchParams.get("service")
+      if (serviceParam && data.services?.some((s: Service) => s.id === serviceParam)) {
+        setSelectedService(serviceParam)
+        setStep(2)
+      }
     }).catch(() => {
       setLoading(false)
     })
-  }, [params.slug])
+  }, [params.slug, searchParams])
 
   const selectedServiceObj = services.find((s) => s.id === selectedService)
   const availableStaff = selectedServiceObj
@@ -350,7 +357,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
         </div>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
-          Powered by BookaFlow
+          Powered by BookMiadi
         </p>
       </div>
     </div>

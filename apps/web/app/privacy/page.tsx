@@ -1,8 +1,8 @@
 import Image from "next/image"
 
 export const metadata = {
-  title: "BookaFlow — Privacy Policy",
-  description: "Privacy Policy for BookaFlow booking platform.",
+  title: "BookMiadi — Privacy Policy",
+  description: "Privacy Policy for BookMiadi booking platform.",
 }
 
 export default function PrivacyPage() {
@@ -12,12 +12,12 @@ export default function PrivacyPage() {
         <div className="mx-auto flex max-w-3xl items-center gap-2 px-6 py-4">
           <Image
             src="/peercoin.png"
-            alt="BookaFlow"
+            alt="BookMiadi"
             width={28}
             height={28}
             className="rounded-lg"
           />
-          <span className="text-lg font-bold">BookaFlow</span>
+          <span className="text-lg font-bold">BookMiadi</span>
         </div>
       </header>
 

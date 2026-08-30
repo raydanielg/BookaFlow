@@ -5,7 +5,7 @@ import { RevealOnScroll } from "@/components/landing/reveal-on-scroll"
 const testimonials = [
   {
     quote:
-      "BookaFlow changed how we run our salon. No more double-bookings or missed appointments. Our customers love booking online.",
+      "BookMiadi changed how we run our salon. No more double-bookings or missed appointments. Our customers love booking online.",
     author: "Amina Hassan",
     role: "Owner, Beauty Lounge",
     location: "Dar es Salaam",
@@ -26,7 +26,7 @@ const testimonials = [
   },
   {
     quote:
-      "Our gym class bookings used to be chaotic. BookaFlow made it simple. Members book online and we track everything.",
+      "Our gym class bookings used to be chaotic. BookMiadi made it simple. Members book online and we track everything.",
     author: "Michael Okoye",
     role: "Manager, FitZone Gym",
     location: "Kampala",

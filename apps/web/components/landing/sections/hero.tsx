@@ -27,7 +27,7 @@ export function Hero() {
               <TextRotator />.
             </h1>
             <p className="max-w-xl text-lg text-muted-foreground text-pretty animate-[fade-in_0.8s_ease-out_0.2s_both]">
-              BookaFlow helps you streamline appointments, staff, and customers
+              BookMiadi helps you streamline appointments, staff, and customers
               — all in one beautiful platform built for modern businesses.
             </p>
           </div>

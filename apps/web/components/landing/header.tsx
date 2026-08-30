@@ -22,7 +22,7 @@ const navLinks = [
   { label: "Features", href: "/#features" },
   { label: "How it works", href: "/#how-it-works" },
   { label: "Industries", href: "/#industries" },
-  { label: "Why BookaFlow", href: "/#why" },
+  { label: "Why BookMiadi", href: "/#why" },
 ]
 
 function ThemeToggle() {
@@ -68,13 +68,13 @@ export function LandingHeader() {
         <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
           <Image
             src="/peercoin.png"
-            alt="BookaFlow"
+            alt="BookMiadi"
             width={28}
             height={28}
             className="rounded-lg"
           />
           <span className="text-base font-semibold tracking-tight text-foreground">
-            BookaFlow
+            BookMiadi
           </span>
         </Link>
 

@@ -30,7 +30,7 @@ export function Industries() {
               Built for service businesses
             </h2>
             <p className="mt-4 text-lg text-muted-foreground text-pretty">
-              BookaFlow works for any business that takes appointments.
+              BookMiadi works for any business that takes appointments.
             </p>
           </div>
         </RevealOnScroll>

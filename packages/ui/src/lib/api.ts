@@ -118,6 +118,18 @@ export const api = {
   createBooking: (slug: string, body: Record<string, unknown>) =>
     request(`/booking/${slug}`, { method: "POST", body: JSON.stringify(body) }),
 
+  // Public profile
+  getPublicProfile: (slug: string) => request(`/public/${slug}`),
+  getPublicServices: (slug: string) => request(`/public/${slug}/services`),
+  submitReview: (slug: string, body: Record<string, unknown>) =>
+    request(`/public/${slug}/reviews`, { method: "POST", body: JSON.stringify(body) }),
+
+  // SEO & Booking Settings
+  updateSEO: (businessId: string, body: Record<string, unknown>) =>
+    request(`/business/${businessId}/seo`, { method: "PUT", body: JSON.stringify(body) }),
+  updateBookingSettings: (businessId: string, body: Record<string, unknown>) =>
+    request(`/business/${businessId}/booking-settings`, { method: "PUT", body: JSON.stringify(body) }),
+
   // Token management
   setToken,
   removeToken,

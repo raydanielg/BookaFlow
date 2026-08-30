@@ -64,7 +64,7 @@ export function ResetPasswordForm({
           <div className="flex size-10 items-center justify-center rounded-lg">
             <img
               src="/peercoin.png"
-              alt="BookaFlow"
+              alt="BookMiadi"
               className="size-8 rounded-lg object-cover"
             />
           </div>
@@ -93,11 +93,11 @@ export function ResetPasswordForm({
           <div className="flex size-10 items-center justify-center rounded-lg">
             <img
               src="/peercoin.png"
-              alt="BookaFlow"
+              alt="BookMiadi"
               className="size-8 rounded-lg object-cover"
             />
           </div>
-          <span className="sr-only">BookaFlow</span>
+          <span className="sr-only">BookMiadi</span>
         </a>
         <h1 className="text-xl font-bold">Set new password</h1>
         <FieldDescription>

@@ -47,7 +47,7 @@ export function LandingFooter() {
         className="pointer-events-none absolute inset-x-0 bottom-0 select-none overflow-hidden leading-none"
       >
         <span className="block translate-y-[18%] text-center text-[22vw] font-bold tracking-tighter text-background/[0.03] sm:text-[18vw] lg:text-[16vw]">
-          BookaFlow
+          BookMiadi
         </span>
       </div>
 
@@ -82,13 +82,13 @@ export function LandingFooter() {
               <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                 <Image
                   src="/peercoin.png"
-                  alt="BookaFlow"
+                  alt="BookMiadi"
                   width={32}
                   height={32}
                   className="rounded-lg"
                 />
                 <span className="text-lg font-semibold tracking-tight text-background">
-                  BookaFlow
+                  BookMiadi
                 </span>
               </Link>
               <p className="max-w-xs text-sm text-background/50 text-pretty">
@@ -144,7 +144,7 @@ export function LandingFooter() {
 
         <div className="relative mt-12 flex flex-col items-center justify-between gap-4 border-t border-background/10 pt-8 sm:flex-row">
           <p className="text-sm text-background/40">
-            &copy; {new Date().getFullYear()} BookaFlow. All rights reserved.
+            &copy; {new Date().getFullYear()} BookMiadi. All rights reserved.
           </p>
           <p className="text-sm text-background/40">
             Built in Tanzania
