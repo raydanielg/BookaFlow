@@ -29,14 +29,14 @@ const reasons: { title: string; desc: string }[] = [
   },
 ]
 
-export function WhyBookMiadi() {
+export function WhyBookaFlow() {
   return (
     <section id="why" className="bg-foreground py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <RevealOnScroll>
           <div className="mb-16 max-w-2xl">
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
-              Why BookMiadi
+              Why BookaFlow
             </span>
             <h2 className="mt-6 text-3xl font-semibold tracking-tight text-background text-balance sm:text-4xl lg:text-5xl">
               The smarter way to manage bookings

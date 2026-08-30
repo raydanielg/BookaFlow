@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/dashboard", "/api"],
     },
-    sitemap: "https://bookmiadi.com/sitemap.xml",
+    sitemap: "https://bookaflow.com/sitemap.xml",
   }
 }

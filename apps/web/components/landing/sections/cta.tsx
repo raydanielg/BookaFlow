@@ -19,7 +19,7 @@ export function CTA() {
               Ready to transform your booking experience?
             </h2>
             <p className="text-lg text-muted-foreground text-pretty">
-              Join businesses across Africa using BookMiadi to manage
+              Join businesses across Africa using BookaFlow to manage
               appointments, staff, and customers — all in one place.
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row">

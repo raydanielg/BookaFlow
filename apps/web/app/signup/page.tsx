@@ -4,10 +4,10 @@ import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Sign up",
-  description: "Create your BookMiadi account and start managing your bookings, staff, and customers — all in one beautiful platform.",
+  description: "Create your BookaFlow account and start managing your bookings, staff, and customers — all in one beautiful platform.",
   openGraph: {
-    title: "BookMiadi — Create your account",
-    description: "Start managing your bookings, staff, and customers with BookMiadi.",
+    title: "BookaFlow — Create your account",
+    description: "Start managing your bookings, staff, and customers with BookaFlow.",
     images: ["/team-young-african-people-office-table-with-laptops_219728-4522.jpg"],
   },
 }
@@ -19,12 +19,12 @@ export default function SignupPage() {
         <div className="mb-8 flex flex-col items-center gap-3">
           <Image
             src="/peercoin.png"
-            alt="BookMiadi"
+            alt="BookaFlow"
             width={40}
             height={40}
             className="rounded-xl"
           />
-          <span className="text-xl font-bold tracking-tight">BookMiadi</span>
+          <span className="text-xl font-bold tracking-tight">BookaFlow</span>
         </div>
         <SignupForm />
       </div>

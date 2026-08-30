@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "BookMiadi — Smart Booking & Scheduling Platform",
-    short_name: "BookMiadi",
+    name: "BookaFlow — Smart Booking & Scheduling Platform",
+    short_name: "BookaFlow",
     description:
       "The all-in-one booking platform for salons, clinics, spas, gyms, and studios. Manage appointments, staff, customers, and payments — all in one beautiful platform.",
     start_url: "/",

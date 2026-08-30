@@ -357,7 +357,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
         </div>
 
         <p className="mt-6 text-center text-xs text-muted-foreground">
-          Powered by BookMiadi
+          Powered by BookaFlow
         </p>
       </div>
     </div>

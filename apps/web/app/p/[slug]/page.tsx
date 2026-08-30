@@ -419,7 +419,7 @@ export default function BusinessProfilePage() {
         {/* Footer */}
         <footer className="mt-12 border-t border-border py-6">
           <p className="text-center text-xs text-muted-foreground">
-            Powered by BookMiadi ?? <Link href="/" className="hover:text-foreground">Create your own booking page</Link>
+            Powered by BookaFlow ?? <Link href="/" className="hover:text-foreground">Create your own booking page</Link>
           </p>
         </footer>
       </div>

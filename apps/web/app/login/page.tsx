@@ -4,10 +4,10 @@ import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Sign in",
-  description: "Sign in to your BookMiadi account and manage your bookings.",
+  description: "Sign in to your BookaFlow account and manage your bookings.",
   openGraph: {
-    title: "BookMiadi — Sign in",
-    description: "Sign in to your BookMiadi account and manage your bookings.",
+    title: "BookaFlow — Sign in",
+    description: "Sign in to your BookaFlow account and manage your bookings.",
     images: ["/team-young-african-people-office-table-with-laptops_219728-4522.jpg"],
   },
 }
@@ -19,12 +19,12 @@ export default function LoginPage() {
         <div className="mb-8 flex flex-col items-center gap-3">
           <Image
             src="/peercoin.png"
-            alt="BookMiadi"
+            alt="BookaFlow"
             width={40}
             height={40}
             className="rounded-xl"
           />
-          <span className="text-xl font-bold tracking-tight">BookMiadi</span>
+          <span className="text-xl font-bold tracking-tight">BookaFlow</span>
         </div>
         <LoginForm />
       </div>

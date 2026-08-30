@@ -13,16 +13,16 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-const siteUrl = "https://bookmiadi.com"
+const siteUrl = "https://bookaflow.com"
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "BookMiadi — Smart Booking & Scheduling Platform",
-    template: "%s | BookMiadi",
+    default: "BookaFlow — Smart Booking & Scheduling Platform",
+    template: "%s | BookaFlow",
   },
   description:
-    "BookMiadi is the all-in-one booking platform for salons, clinics, spas, gyms, and studios. Manage appointments, staff, customers, and payments — all in one beautiful platform.",
+    "BookaFlow is the all-in-one booking platform for salons, clinics, spas, gyms, and studios. Manage appointments, staff, customers, and payments — all in one beautiful platform.",
   keywords: [
     "booking platform",
     "appointment scheduling",
@@ -33,19 +33,19 @@ export const metadata: Metadata = {
     "gym booking",
     "business scheduling",
     "Tanzania booking",
-    "BookMiadi",
+    "BookaFlow",
   ],
-  authors: [{ name: "BookMiadi" }],
-  creator: "BookMiadi",
-  publisher: "BookMiadi",
-  applicationName: "BookMiadi",
+  authors: [{ name: "BookaFlow" }],
+  creator: "BookaFlow",
+  publisher: "BookaFlow",
+  applicationName: "BookaFlow",
   category: "Business & Scheduling",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "BookMiadi",
-    title: "BookMiadi — Smart Booking & Scheduling Platform",
+    siteName: "BookaFlow",
+    title: "BookaFlow — Smart Booking & Scheduling Platform",
     description:
       "The all-in-one booking platform for salons, clinics, spas, gyms, and studios. Manage appointments, staff, customers, and payments — all in one beautiful platform.",
     images: [
@@ -53,13 +53,13 @@ export const metadata: Metadata = {
         url: "/team-young-african-people-office-table-with-laptops_219728-4522.jpg",
         width: 1200,
         height: 630,
-        alt: "BookMiadi — Smart Booking Platform for African Businesses",
+        alt: "BookaFlow — Smart Booking Platform for African Businesses",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BookMiadi — Smart Booking & Scheduling Platform",
+    title: "BookaFlow — Smart Booking & Scheduling Platform",
     description:
       "The all-in-one booking platform for salons, clinics, spas, gyms, and studios. Manage appointments, staff, customers, and payments — all in one beautiful platform.",
     images: ["/team-young-african-people-office-table-with-laptops_219728-4522.jpg"],

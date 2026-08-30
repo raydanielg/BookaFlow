@@ -1,8 +1,8 @@
 import Image from "next/image"
 
 export const metadata = {
-  title: "BookMiadi — Terms of Service",
-  description: "Terms of Service for BookMiadi booking platform.",
+  title: "BookaFlow — Terms of Service",
+  description: "Terms of Service for BookaFlow booking platform.",
 }
 
 export default function TermsPage() {
@@ -12,12 +12,12 @@ export default function TermsPage() {
         <div className="mx-auto flex max-w-3xl items-center gap-2 px-6 py-4">
           <Image
             src="/peercoin.png"
-            alt="BookMiadi"
+            alt="BookaFlow"
             width={28}
             height={28}
             className="rounded-lg"
           />
-          <span className="text-lg font-bold">BookMiadi</span>
+          <span className="text-lg font-bold">BookaFlow</span>
         </div>
       </header>
 
@@ -31,14 +31,14 @@ export default function TermsPage() {
           <section>
             <h2 className="text-base font-semibold text-foreground">1. Acceptance of Terms</h2>
             <p className="mt-2">
-              By creating an account or using BookMiadi (&quot;the Service&quot;), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
+              By creating an account or using BookaFlow (&quot;the Service&quot;), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
             </p>
           </section>
 
           <section>
             <h2 className="text-base font-semibold text-foreground">2. Description of Service</h2>
             <p className="mt-2">
-              BookMiadi is a booking and scheduling platform that allows businesses to manage appointments, staff, services, and customers. We reserve the right to modify, suspend, or discontinue the Service at any time.
+              BookaFlow is a booking and scheduling platform that allows businesses to manage appointments, staff, services, and customers. We reserve the right to modify, suspend, or discontinue the Service at any time.
             </p>
           </section>
 
@@ -66,7 +66,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-base font-semibold text-foreground">5. Business Data</h2>
             <p className="mt-2">
-              You retain ownership of all data you submit to the Service. You grant BookMiadi a limited license to process your data solely for the purpose of providing the Service to you.
+              You retain ownership of all data you submit to the Service. You grant BookaFlow a limited license to process your data solely for the purpose of providing the Service to you.
             </p>
           </section>
 
@@ -94,7 +94,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-base font-semibold text-foreground">9. Limitation of Liability</h2>
             <p className="mt-2">
-              To the fullest extent permitted by law, BookMiadi shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service.
+              To the fullest extent permitted by law, BookaFlow shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service.
             </p>
           </section>
 
