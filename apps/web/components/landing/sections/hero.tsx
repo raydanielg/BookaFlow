@@ -39,7 +39,7 @@ export function Hero() {
                 className="shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]"
               >
                 Start free today
-                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4.5 transition-transform duration-300 group-hover/button:translate-x-1" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="size-5" />
               </Button>
             </Link>
             <Link href="/login">

@@ -247,7 +247,7 @@ export default function BusinessProfilePage() {
                     <Link href={`/book/${business.slug}?service=${service.id}`}>
                       <Button size="sm" variant="outline" className="mt-1 w-full transition-all duration-300 hover:border-primary/40 hover:shadow-sm active:scale-[0.98]">
                         Book this
-                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
                       </Button>
                     </Link>
                   </div>
@@ -409,7 +409,7 @@ export default function BusinessProfilePage() {
               <Link href={`/book/${business.slug}`}>
                 <Button variant="secondary" size="sm" className="mt-3 w-full shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md active:scale-[0.98]">
                   Book now
-                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
                 </Button>
               </Link>
             </div>

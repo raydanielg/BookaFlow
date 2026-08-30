@@ -197,7 +197,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                 className="w-full shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]"
               >
                 Continue
-                <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
+                <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4" />
               </Button>
             </div>
           )}
@@ -277,7 +277,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
 
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setStep(1)} className="flex-1 transition-all duration-300 hover:border-primary/30 active:scale-[0.98]">
-                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:-translate-x-0.5" />
+                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4" />
                   Back
                 </Button>
                 <Button
@@ -286,7 +286,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                   className="flex-1 shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]"
                 >
                   Continue
-                  <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
+                  <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4" />
                 </Button>
               </div>
             </div>
@@ -310,7 +310,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setStep(2)} className="flex-1 transition-all duration-300 hover:border-primary/30 active:scale-[0.98]">
-                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:-translate-x-0.5" />
+                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4" />
                   Back
                 </Button>
                 <Button

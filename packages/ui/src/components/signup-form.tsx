@@ -98,7 +98,7 @@ export function SignupForm({
           render={<a href="/dashboard" />}
         >
           Go to dashboard
-          <HugeiconsIcon icon={ArrowRight01Icon} className="size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
+          <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
         </Button>
       </div>
     )

@@ -102,7 +102,7 @@ export function LandingHeader() {
           <Link href="/signup">
             <Button size="sm" className="shadow-sm shadow-primary/20 transition-all duration-300 hover:scale-105 hover:shadow-md hover:shadow-primary/25 active:scale-95">
               Get started
-              <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5 transition-transform duration-300 group-hover/button:translate-x-0.5" />
+              <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
             </Button>
           </Link>
         </div>
