@@ -26,6 +26,7 @@ import {
   UserCircleIcon,
   Settings05Icon,
   ChartAnalysisIcon,
+  PartyIcon,
 } from "@hugeicons/core-free-icons"
 
 import { UserMenu } from "@/components/shell/user-menu"
@@ -40,6 +41,7 @@ const NAV_GROUPS = [
       { title: "Appointments", href: "/dashboard/appointments", icon: CalendarAdd01Icon },
       { title: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
       { title: "Services", href: "/dashboard/services", icon: ScissorsIcon },
+      { title: "Events", href: "/dashboard/events", icon: PartyIcon },
       { title: "Staff", href: "/dashboard/staff", icon: UserCircleIcon },
     ],
   },

@@ -133,6 +133,20 @@ export const api = {
   updateBookingSettings: (businessId: string, body: Record<string, unknown>) =>
     request(`/business/${businessId}/booking-settings`, { method: "PUT", body: JSON.stringify(body) }),
 
+  // Events
+  getEvents: (businessId: string) => request(`/events/${businessId}`),
+  getEvent: (businessId: string, eventId: string) => request(`/events/${businessId}/${eventId}`),
+  createEvent: (businessId: string, body: Record<string, unknown>) =>
+    request(`/events/${businessId}`, { method: "POST", body: JSON.stringify(body) }),
+  updateEvent: (businessId: string, eventId: string, body: Record<string, unknown>) =>
+    request(`/events/${businessId}/${eventId}`, { method: "PUT", body: JSON.stringify(body) }),
+  deleteEvent: (businessId: string, eventId: string) =>
+    request(`/events/${businessId}/${eventId}`, { method: "DELETE" }),
+  updateRegistrationStatus: (businessId: string, eventId: string, regId: string, status: string) =>
+    request(`/events/${businessId}/${eventId}/registration/${regId}/status`, { method: "PUT", body: JSON.stringify({ status }) }),
+  checkinRegistration: (businessId: string, eventId: string, regId: string) =>
+    request(`/events/${businessId}/${eventId}/registration/${regId}/checkin`, { method: "PUT" }),
+
   // Token management
   setToken,
   removeToken,
