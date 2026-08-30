@@ -239,7 +239,7 @@ export default function EventsPage() {
       )}
 
       {showCreate && (
-        <CreateEventModal
+        <CreateEventDrawer
           businessId={businessId}
           onClose={() => setShowCreate(false)}
           onCreated={() => { setShowCreate(false); fetchEvents() }}
@@ -249,7 +249,7 @@ export default function EventsPage() {
   )
 }
 
-function CreateEventModal({ businessId, onClose, onCreated }: { businessId: string | null; onClose: () => void; onCreated: () => void }) {
+function CreateEventDrawer({ businessId, onClose, onCreated }: { businessId: string | null; onClose: () => void; onCreated: () => void }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
 
@@ -272,7 +272,6 @@ function CreateEventModal({ businessId, onClose, onCreated }: { businessId: stri
       capacity: parseInt(formData.get("capacity") as string || "0", 10),
     }
 
-    // Collect tickets
     const ticketNames = formData.getAll("ticketName") as string[]
     const ticketPrices = formData.getAll("ticketPrice") as string[]
     const ticketQtys = formData.getAll("ticketQty") as string[]
@@ -295,93 +294,114 @@ function CreateEventModal({ businessId, onClose, onCreated }: { businessId: stri
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4" onClick={onClose}>
-      <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-background p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Create Event</h2>
+    <>
+      <div className="fixed inset-0 z-50 bg-black/30 transition-opacity" onClick={onClose} />
+
+      <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-background shadow-2xl animate-in slide-in-from-right duration-300">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-border px-6 py-4">
+          <div className="flex items-center gap-2.5">
+            <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
+              <HugeiconsIcon icon={PartyIcon} className="size-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold">Create Event</h2>
+              <p className="text-xs text-muted-foreground">Set up a new event for your audience</p>
+            </div>
+          </div>
           <Button variant="ghost" size="icon" className="size-8" onClick={onClose}>
             <HugeiconsIcon icon={Cancel01Icon} className="size-4" />
           </Button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-xs">Event Title *</Label>
-            <Input name="title" required placeholder="Tech Meetup Mwanza 2026" />
-          </div>
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto px-6 py-5">
+          <form onSubmit={handleSubmit} id="event-form" className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <Label className="text-xs font-medium">Event Title *</Label>
+              <Input name="title" required placeholder="Tech Meetup Mwanza 2026" className="h-10" />
+            </div>
 
-          <div className="flex flex-col gap-1.5">
-            <Label className="text-xs">Description</Label>
-            <textarea name="description" rows={3} placeholder="Tell people what this event is about..."
-              className="rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
-          </div>
+            <div className="flex flex-col gap-2">
+              <Label className="text-xs font-medium">Description</Label>
+              <textarea name="description" rows={3} placeholder="Tell people what this event is about..."
+                className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+            </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">Category</Label>
-              <select name="category" className="h-9 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                {Object.entries(CATEGORY_LABELS).map(([k, v]) => (<option key={k} value={k}>{v}</option>))}
-              </select>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Category</Label>
+                <select name="category" className="h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                  {Object.entries(CATEGORY_LABELS).map(([k, v]) => (<option key={k} value={k}>{v}</option>))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Mode</Label>
+                <select name="mode" className="h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                  <option value="PHYSICAL">In-Person</option>
+                  <option value="ONLINE">Online</option>
+                  <option value="HYBRID">Hybrid</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Registration</Label>
+                <select name="registrationType" className="h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                  <option value="FREE">Free</option>
+                  <option value="TICKETED">Ticketed</option>
+                  <option value="APPLICATION">Application</option>
+                </select>
+              </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">Mode</Label>
-              <select name="mode" className="h-9 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="PHYSICAL">In-Person</option>
-                <option value="ONLINE">Online</option>
-                <option value="HYBRID">Hybrid</option>
-              </select>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">Registration</Label>
-              <select name="registrationType" className="h-9 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="FREE">Free</option>
-                <option value="TICKETED">Ticketed</option>
-                <option value="APPLICATION">Application</option>
-              </select>
-            </div>
-          </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">Start Date & Time *</Label>
-              <Input name="startDate" type="datetime-local" required />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Start Date & Time *</Label>
+                <Input name="startDate" type="datetime-local" required className="h-10" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">End Date & Time *</Label>
+                <Input name="endDate" type="datetime-local" required className="h-10" />
+              </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">End Date & Time *</Label>
-              <Input name="endDate" type="datetime-local" required />
-            </div>
-          </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">Location</Label>
-              <Input name="location" placeholder="Rock City Mall, Mwanza" />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Location</Label>
+                <Input name="location" placeholder="Rock City Mall, Mwanza" className="h-10" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Capacity</Label>
+                <Input name="capacity" type="number" placeholder="100" className="h-10" />
+              </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-xs">Capacity</Label>
-              <Input name="capacity" type="number" placeholder="100" />
+
+            <div className="rounded-lg border border-border p-4">
+              <p className="mb-3 text-xs font-medium text-muted-foreground">Tickets (optional — leave empty for free events)</p>
+              <div className="grid gap-2 sm:grid-cols-3">
+                <Input name="ticketName" placeholder="Ticket name (e.g. VIP)" className="h-10" />
+                <Input name="ticketPrice" type="number" placeholder="Price (TZS)" className="h-10" />
+                <Input name="ticketQty" type="number" placeholder="Quantity" className="h-10" />
+              </div>
             </div>
-          </div>
 
-          {/* Tickets (optional) */}
-          <div className="rounded-lg border border-border p-3">
-            <p className="mb-2 text-xs font-medium text-muted-foreground">Tickets (optional — leave empty for free events)</p>
-            <div className="grid gap-2 sm:grid-cols-3">
-              <Input name="ticketName" placeholder="Ticket name (e.g. VIP)" />
-              <Input name="ticketPrice" type="number" placeholder="Price (TZS)" />
-              <Input name="ticketQty" type="number" placeholder="Quantity" />
-            </div>
-          </div>
+            {error && (
+              <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-900 dark:bg-red-950/30">
+                {error}
+              </div>
+            )}
+          </form>
+        </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
-
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" size="sm" onClick={onClose}>Cancel</Button>
-            <Button type="submit" size="sm" loading={saving}>Create event</Button>
-          </div>
-        </form>
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-2 border-t border-border px-6 py-4">
+          <Button type="button" variant="outline" size="sm" onClick={onClose}>Cancel</Button>
+          <Button type="submit" form="event-form" size="sm" loading={saving}>
+            <HugeiconsIcon icon={PartyIcon} className="size-4" />
+            Create event
+          </Button>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
