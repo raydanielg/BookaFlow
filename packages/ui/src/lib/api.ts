@@ -68,6 +68,7 @@ export const api = {
   updateBusiness: (businessId: string, body: Record<string, unknown>) =>
     request(`/business/${businessId}`, { method: "PUT", body: JSON.stringify(body) }),
   getDashboard: (businessId: string) => request(`/business/${businessId}/dashboard`),
+  getAnalytics: (businessId: string) => request(`/business/${businessId}/analytics`),
   getWorkingHours: (businessId: string) => request(`/business/${businessId}/working-hours`),
   setWorkingHours: (businessId: string, body: Record<string, unknown>) =>
     request(`/business/${businessId}/working-hours`, { method: "POST", body: JSON.stringify(body) }),
