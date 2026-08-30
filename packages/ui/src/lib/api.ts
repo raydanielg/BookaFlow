@@ -92,8 +92,10 @@ export const api = {
     request(`/staff/${businessId}/${id}`, { method: "DELETE" }),
 
   // Appointments
-  getAppointments: (businessId: string, date?: string) =>
-    request(`/appointments/${businessId}${date ? `?date=${date}` : ""}`),
+  getAppointments: (businessId: string, params?: { date?: string; from?: string; to?: string; staffId?: string }) => {
+    const query = params ? "?" + new URLSearchParams(params as Record<string, string>).toString() : ""
+    return request(`/appointments/${businessId}${query}`)
+  },
   createAppointment: (businessId: string, body: Record<string, unknown>) =>
     request(`/appointments/${businessId}`, { method: "POST", body: JSON.stringify(body) }),
   updateAppointmentStatus: (businessId: string, id: string, status: string) =>
