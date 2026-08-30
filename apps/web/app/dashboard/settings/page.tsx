@@ -89,8 +89,8 @@ export default function SettingsPage() {
 
   if (!data) return null
 
-  const profileUrl = `bookaflow.com/@${data.slug}`
-  const bookingUrl = `bookaflow.com/book/${data.slug}`
+  const profileUrl = `bookaflow-web.vercel.app/@${data.slug}`
+  const bookingUrl = `bookaflow-web.vercel.app/book/${data.slug}`
 
   async function saveProfile(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -394,7 +394,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <Label className="text-xs">Canonical URL</Label>
-                  <Input name="canonicalUrl" defaultValue={data.seo?.canonicalUrl || ""} placeholder="https://bookaflow.com/@your-slug" />
+                  <Input name="canonicalUrl" defaultValue={data.seo?.canonicalUrl || ""} placeholder="https://bookaflow-web.vercel.app/@your-slug" />
                 </div>
               </div>
             </div>
@@ -404,7 +404,7 @@ export default function SettingsPage() {
               <p className="mb-2 text-xs font-medium text-muted-foreground">Google Preview</p>
               <div className="flex flex-col gap-0.5">
                 <p className="text-lg text-primary hover:underline cursor-pointer">{data.seo?.seoTitle || `${data.name} | ${data.type} in ${data.city || "Tanzania"}`}</p>
-                <p className="text-xs text-green-700">bookaflow.com/@{data.slug}</p>
+                <p className="text-xs text-green-700">bookaflow-web.vercel.app/@{data.slug}</p>
                 <p className="text-sm text-muted-foreground">{data.seo?.metaDescription || "Book services and appointments online."}</p>
               </div>
             </div>
