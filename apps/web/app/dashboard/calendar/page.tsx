@@ -45,7 +45,7 @@ const STATUS_STYLES: Record<string, { bg: string; border: string; text: string; 
 const HOURS = Array.from({ length: 12 }, (_, i) => i + 8)
 
 function formatDate(d: Date) {
-  return d.toISOString().split("T")[0]
+  return d.toISOString().split("T")[0] || ""
 }
 
 function getWeekStart(d: Date) {
@@ -83,8 +83,8 @@ function getMonthDays(d: Date) {
 }
 
 function timeToMinutes(time: string) {
-  const [h, m] = time.split(":").map(Number)
-  return h * 60 + m
+  const parts = time.split(":").map(Number)
+  return (parts[0] || 0) * 60 + (parts[1] || 0)
 }
 
 export default function CalendarPage() {
@@ -107,7 +107,8 @@ export default function CalendarPage() {
   const fetchAppointments = useCallback(() => {
     if (!businessId) return
     setDataLoading(true)
-    let from: string, to: string
+    let from = ""
+    let to = ""
     if (view === "Day") {
       from = formatDate(currentDate)
       to = from
@@ -140,7 +141,7 @@ export default function CalendarPage() {
     appointments.forEach((a) => {
       const d = formatDate(new Date(a.date))
       if (!map[d]) map[d] = []
-      map[d].push(a)
+      map[d]!.push(a)
     })
     return map
   }, [appointments])
@@ -257,12 +258,12 @@ function DayView({ date, appts, onSelect }: { date: Date; appts: Appointment[]; 
           </div>
         ))}
         <div className="absolute left-16 right-3" style={{ top: 20, height: HOURS.length * 72 }}>
-          {appts.filter(a => a.status !== "CANCELLED").map((a) => {
+          {appts.filter((a: Appointment) => a.status !== "CANCELLED").map((a) => {
             const startMin = timeToMinutes(a.startTime)
             const endMin = timeToMinutes(a.endTime)
             const top = (startMin - 8 * 60) * 1.2
             const height = Math.max((endMin - startMin) * 1.2, 36)
-            const style = STATUS_STYLES[a.status] || STATUS_STYLES.PENDING
+            const style = STATUS_STYLES[a.status] ?? { bg: "", border: "", text: "", dot: "", label: a.status }
             return (
               <button key={a.id} onClick={() => onSelect(a)}
                 className={`absolute left-0 right-0 rounded-lg border p-2 text-left transition-all hover:shadow-md ${style.bg} ${style.border}`}
@@ -311,12 +312,12 @@ function WeekView({ weekStart, apptsByDate, onSelect, isToday }: { weekStart: Da
             return (
               <div key={i} className={`relative border-r border-border ${isToday(d) ? "bg-primary/[0.02]" : ""}`}>
                 {HOURS.map((_, hi) => (<div key={hi} className="h-16 border-b border-border/40" />))}
-                {dayAppts.filter(a => a.status !== "CANCELLED").map((a) => {
+                {dayAppts.filter((a: Appointment) => a.status !== "CANCELLED").map((a) => {
                   const startMin = timeToMinutes(a.startTime)
                   const endMin = timeToMinutes(a.endTime)
                   const top = (startMin - 8 * 60) * (64 / 60)
                   const height = Math.max((endMin - startMin) * (64 / 60), 28)
-                  const style = STATUS_STYLES[a.status] || STATUS_STYLES.PENDING
+                  const style = STATUS_STYLES[a.status] ?? { bg: "", border: "", text: "", dot: "", label: a.status }
                   return (
                     <button key={a.id} onClick={() => onSelect(a)}
                       className={`absolute left-1 right-1 rounded-md border p-1.5 text-left transition-all hover:shadow-sm ${style.bg} ${style.border}`}
@@ -350,8 +351,8 @@ function MonthView({ days, apptsByDate, isToday, isSameMonth, onSelect }: { days
             <div key={i} className={`min-h-[110px] border-r border-b border-border p-1.5 ${!isSameMonth(d) ? "bg-muted/30" : ""} ${isToday(d) ? "ring-2 ring-primary ring-inset" : ""}`}>
               <p className={`mb-1 text-xs font-medium ${!isSameMonth(d) ? "text-muted-foreground/50" : isToday(d) ? "text-primary" : "text-muted-foreground"}`}>{d.getDate()}</p>
               <div className="flex flex-col gap-0.5">
-                {dayAppts.slice(0, 3).map((a) => {
-                  const style = STATUS_STYLES[a.status] || STATUS_STYLES.PENDING
+                {dayAppts.slice(0, 3).map((a: Appointment) => {
+                  const style = STATUS_STYLES[a.status] ?? { bg: "", border: "", text: "", dot: "", label: a.status }
                   return (
                     <button key={a.id} onClick={() => onSelect(a)}
                       className={`flex items-center gap-1 rounded px-1 py-0.5 text-left text-[10px] transition-all hover:shadow-sm ${style.bg}`}>
@@ -371,7 +372,7 @@ function MonthView({ days, apptsByDate, isToday, isSameMonth, onSelect }: { days
 }
 
 function AppointmentPanel({ appointment, onClose, onStatusUpdate }: { appointment: Appointment; onClose: () => void; onStatusUpdate: (id: string, status: string) => void }) {
-  const style = STATUS_STYLES[appointment.status] || STATUS_STYLES.PENDING
+  const style = STATUS_STYLES[appointment.status] ?? { bg: "", border: "", text: "", dot: "", label: appointment.status }
   const apptDate = new Date(appointment.date)
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-end bg-black/20 p-0 sm:p-4" onClick={onClose}>
