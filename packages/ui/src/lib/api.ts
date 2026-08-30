@@ -147,6 +147,18 @@ export const api = {
   checkinRegistration: (businessId: string, eventId: string, regId: string) =>
     request(`/events/${businessId}/${eventId}/registration/${regId}/checkin`, { method: "PUT" }),
 
+  // Payments
+  getTransactions: (businessId: string, params?: { status?: string; from?: string; to?: string }) => {
+    const query = params ? "?" + new URLSearchParams(params as Record<string, string>).toString() : ""
+    return request(`/payments/${businessId}/transactions${query}`)
+  },
+  recordPayment: (businessId: string, body: Record<string, unknown>) =>
+    request(`/payments/${businessId}/transactions`, { method: "POST", body: JSON.stringify(body) }),
+  updateTransactionStatus: (businessId: string, id: string, status: string) =>
+    request(`/payments/${businessId}/transactions/${id}/status`, { method: "PUT", body: JSON.stringify({ status }) }),
+  getPlans: () => request(`/payments/plans`),
+  getSubscription: (businessId: string) => request(`/payments/${businessId}/subscription`),
+
   // Token management
   setToken,
   removeToken,
