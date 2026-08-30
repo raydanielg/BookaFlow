@@ -28,6 +28,7 @@ import {
   ChartAnalysisIcon,
   PartyIcon,
   CreditCardIcon,
+  SparklesIcon,
 } from "@hugeicons/core-free-icons"
 
 import { UserMenu } from "@/components/shell/user-menu"
@@ -38,6 +39,7 @@ const NAV_GROUPS = [
     items: [
       { title: "Overview", href: "/dashboard", icon: DashboardSquare02Icon },
       { title: "Analytics", href: "/dashboard/analytics", icon: ChartAnalysisIcon },
+      { title: "AI Assistant", href: "/dashboard/ai-assistant", icon: SparklesIcon },
       { title: "Calendar", href: "/dashboard/calendar", icon: Calendar03Icon },
       { title: "Appointments", href: "/dashboard/appointments", icon: CalendarAdd01Icon },
       { title: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },

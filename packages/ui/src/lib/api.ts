@@ -159,6 +159,11 @@ export const api = {
   getPlans: () => request(`/payments/plans`),
   getSubscription: (businessId: string) => request(`/payments/${businessId}/subscription`),
 
+  // AI Assistant
+  getInsights: (businessId: string) => request(`/ai/${businessId}/insights`),
+  aiChat: (businessId: string, message: string) =>
+    request(`/ai/${businessId}/chat`, { method: "POST", body: JSON.stringify({ message }) }),
+
   // Token management
   setToken,
   removeToken,
