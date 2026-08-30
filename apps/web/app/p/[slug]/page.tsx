@@ -150,7 +150,7 @@ export default function BusinessProfilePage() {
       {/* Cover */}
       <div className="relative h-40 w-full bg-gradient-to-br from-primary/20 via-primary/5 to-background sm:h-56 lg:h-64">
         {business.coverImage && (
-          <img src={business.coverImage} alt={business.name} className="h-full w-full object-cover" />
+          <img src={api.imageUrl(business.coverImage)} alt={business.name} className="h-full w-full object-cover" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
       </div>
@@ -162,7 +162,7 @@ export default function BusinessProfilePage() {
             {/* Profile Image */}
             <div className="size-24 shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-muted shadow-md sm:size-28 lg:size-32">
               {business.logo ? (
-                <img src={business.logo} alt={business.name} className="h-full w-full object-cover" />
+                <img src={api.imageUrl(business.logo)} alt={business.name} className="h-full w-full object-cover" />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-4xl font-bold text-primary/30">
                   {business.name.charAt(0)}
@@ -281,7 +281,7 @@ export default function BusinessProfilePage() {
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
                   {business.gallery.map((url, i) => (
                     <div key={i} className="aspect-square overflow-hidden rounded-xl border border-border">
-                      <img src={url} alt={`Gallery ${i + 1}`} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
+                      <img src={api.imageUrl(url)} alt={`Gallery ${i + 1}`} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
                     </div>
                   ))}
                 </div>

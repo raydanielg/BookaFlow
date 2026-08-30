@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Card } from "@workspace/ui/components/card"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
 import { Button } from "@workspace/ui/components/button"
 import { toast } from "@workspace/ui/components/toast"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { CheckmarkCircle01Icon, Copy01Icon, EyeIcon } from "@hugeicons/core-free-icons"
+import { CheckmarkCircle01Icon, Copy01Icon, EyeIcon, Upload04Icon, Cancel01Icon, Image02Icon } from "@hugeicons/core-free-icons"
 
 import { useAuth } from "@/hooks/use-auth"
 import { PageHeader } from "@/components/shared/page-header"
@@ -80,12 +80,22 @@ export default function SettingsPage() {
   const [seoSaving, setSeoSaving] = useState(false)
   const [bookingSaving, setBookingSaving] = useState(false)
   const [detailsSaving, setDetailsSaving] = useState(false)
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
+  const [coverUrl, setCoverUrl] = useState<string | null>(null)
+  const [galleryUrls, setGalleryUrls] = useState<string[]>([])
+  const [uploading, setUploading] = useState<string | null>(null)
+  const logoInputRef = useRef<HTMLInputElement>(null)
+  const coverInputRef = useRef<HTMLInputElement>(null)
+  const galleryInputRef = useRef<HTMLInputElement>(null)
   const [activeTab, setActiveTab] = useState<"profile" | "details" | "seo" | "booking">("profile")
 
   useEffect(() => {
     if (!businessId) return
     api.getBusiness(businessId).then((res) => {
       setData(res.business)
+      setLogoUrl(res.business.logo)
+      setCoverUrl(res.business.coverImage)
+      setGalleryUrls(res.business.gallery || [])
       setDataLoading(false)
     }).catch(() => setDataLoading(false))
   }, [businessId])
@@ -177,7 +187,6 @@ export default function SettingsPage() {
     if (!businessId) return
     setDetailsSaving(true)
     const formData = new FormData(e.currentTarget)
-    const galleryUrls = formData.getAll("galleryUrl") as string[]
     const certNames = formData.getAll("certName") as string[]
     const certIssuers = formData.getAll("certIssuer") as string[]
     const certYears = formData.getAll("certYear") as string[]
@@ -191,7 +200,6 @@ export default function SettingsPage() {
       yearsOfExperience: formData.get("yearsOfExperience") ? parseInt(formData.get("yearsOfExperience") as string, 10) : undefined,
       specialties: formData.get("specialties") || undefined,
       languages: formData.get("languages") || undefined,
-      gallery: galleryUrls.filter((u) => u.trim()).length > 0 ? JSON.stringify(galleryUrls.filter((u) => u.trim())) : undefined,
       certifications: certifications.length > 0 ? JSON.stringify(certifications) : undefined,
     }
     try {
@@ -201,6 +209,42 @@ export default function SettingsPage() {
       toast.add({ type: "error", title: "Save failed", description: err instanceof Error ? err.message : "Something went wrong" })
     } finally {
       setDetailsSaving(false)
+    }
+  }
+
+  async function handleUpload(file: File, type: "logo" | "cover" | "gallery") {
+    setUploading(type)
+    try {
+      const result = await api.uploadImage(file)
+      if (type === "logo") {
+        setLogoUrl(result.url)
+        await api.updateBusiness(businessId!, { logo: result.url })
+        toast.add({ type: "success", title: "Logo updated" })
+      } else if (type === "cover") {
+        setCoverUrl(result.url)
+        await api.updateBusiness(businessId!, { coverImage: result.url })
+        toast.add({ type: "success", title: "Cover image updated" })
+      } else if (type === "gallery") {
+        const newUrls = [...galleryUrls, result.url]
+        setGalleryUrls(newUrls)
+        await api.updateBusiness(businessId!, { gallery: JSON.stringify(newUrls) })
+        toast.add({ type: "success", title: "Image added to gallery" })
+      }
+    } catch (err) {
+      toast.add({ type: "error", title: "Upload failed", description: err instanceof Error ? err.message : "Something went wrong" })
+    } finally {
+      setUploading(null)
+    }
+  }
+
+  async function removeGalleryImage(idx: number) {
+    const newUrls = galleryUrls.filter((_, i) => i !== idx)
+    setGalleryUrls(newUrls)
+    try {
+      await api.updateBusiness(businessId!, { gallery: JSON.stringify(newUrls) })
+      toast.add({ type: "success", title: "Image removed" })
+    } catch {
+      toast.add({ type: "error", title: "Failed to remove image" })
     }
   }
 
@@ -259,6 +303,85 @@ export default function SettingsPage() {
                     View
                   </Button>
                 </a>
+              </div>
+            </div>
+          </Card>
+
+          {/* Images — Logo & Cover */}
+          <Card className="gap-0 p-6">
+            <div className="border-b border-border/60 pb-4">
+              <h2 className="text-base font-semibold tracking-tight">Profile Images</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Upload your logo/avatar and cover photo.</p>
+            </div>
+            <div className="grid gap-6 pt-5 sm:grid-cols-2">
+              {/* Logo */}
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Logo / Avatar</Label>
+                <div
+                  className="group relative flex size-32 cursor-pointer items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-border bg-muted/30 transition-colors hover:border-primary/40"
+                  onClick={() => logoInputRef.current?.click()}
+                >
+                  {logoUrl ? (
+                    <>
+                      <img src={api.imageUrl(logoUrl)} alt="Logo" className="h-full w-full object-cover" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                        <HugeiconsIcon icon={Upload04Icon} className="size-6 text-white" />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                      <HugeiconsIcon icon={Image02Icon} className="size-8" />
+                      <span className="text-xs">Click to upload</span>
+                    </div>
+                  )}
+                  {uploading === "logo" && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="size-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    </div>
+                  )}
+                </div>
+                <input
+                  ref={logoInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, "logo"); e.target.value = "" }}
+                />
+              </div>
+
+              {/* Cover */}
+              <div className="flex flex-col gap-2">
+                <Label className="text-xs font-medium">Cover Photo</Label>
+                <div
+                  className="group relative flex h-32 cursor-pointer items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-border bg-muted/30 transition-colors hover:border-primary/40"
+                  onClick={() => coverInputRef.current?.click()}
+                >
+                  {coverUrl ? (
+                    <>
+                      <img src={api.imageUrl(coverUrl)} alt="Cover" className="h-full w-full object-cover" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                        <HugeiconsIcon icon={Upload04Icon} className="size-6 text-white" />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                      <HugeiconsIcon icon={Image02Icon} className="size-8" />
+                      <span className="text-xs">Click to upload</span>
+                    </div>
+                  )}
+                  {uploading === "cover" && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="size-6 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    </div>
+                  )}
+                </div>
+                <input
+                  ref={coverInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, "cover"); e.target.value = "" }}
+                />
               </div>
             </div>
           </Card>
@@ -430,30 +553,45 @@ export default function SettingsPage() {
           <Card className="gap-0 p-6">
             <div className="border-b border-border/60 pb-4">
               <h2 className="text-base font-semibold tracking-tight">Gallery Images</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Add image URLs to showcase your work on your profile.</p>
+              <p className="mt-1 text-sm text-muted-foreground">Upload images to showcase your work on your profile.</p>
             </div>
-            <div className="grid gap-3 pt-4">
-              {data.gallery && data.gallery.length > 0 ? (
-                data.gallery.map((url, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <Input name="galleryUrl" defaultValue={url} placeholder="https://..." className="flex-1" />
-                    <div className="size-9 shrink-0 overflow-hidden rounded-lg border border-border">
-                      <img src={url} alt="" className="h-full w-full object-cover" />
-                    </div>
+            <div className="pt-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {galleryUrls.map((url, i) => (
+                  <div key={i} className="group relative aspect-square overflow-hidden rounded-xl border border-border">
+                    <img src={api.imageUrl(url)} alt={`Gallery ${i + 1}`} className="h-full w-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeGalleryImage(i)}
+                      className="absolute right-1.5 top-1.5 flex size-7 items-center justify-center rounded-lg bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-600"
+                    >
+                      <HugeiconsIcon icon={Cancel01Icon} className="size-4" />
+                    </button>
                   </div>
-                ))
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Input name="galleryUrl" placeholder="https://...image-url.jpg" className="flex-1" />
+                ))}
+                {/* Upload button */}
+                <div
+                  className="flex aspect-square cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 transition-colors hover:border-primary/40"
+                  onClick={() => galleryInputRef.current?.click()}
+                >
+                  {uploading === "gallery" ? (
+                    <div className="size-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                  ) : (
+                    <div className="flex flex-col items-center gap-1.5 text-muted-foreground">
+                      <HugeiconsIcon icon={Upload04Icon} className="size-6" />
+                      <span className="text-xs">Upload</span>
+                    </div>
+                  )}
                 </div>
-              )}
-              {/* Extra empty slots */}
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={`empty-${i}`} className="flex items-center gap-2">
-                  <Input name="galleryUrl" placeholder="https://...image-url.jpg" className="flex-1" />
-                </div>
-              ))}
-              <p className="text-xs text-muted-foreground">Tip: Upload images to a service like Imgur or Cloudinary and paste the direct URL here.</p>
+              </div>
+              <input
+                ref={galleryInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, "gallery"); e.target.value = "" }}
+              />
+              <p className="mt-3 text-xs text-muted-foreground">Click the upload box to add images. Max 5MB per image.</p>
             </div>
           </Card>
 

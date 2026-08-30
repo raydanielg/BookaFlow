@@ -1,5 +1,11 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api"
 
+function imageUrl(path: string | null | undefined): string {
+  if (!path) return ""
+  if (path.startsWith("http")) return path
+  return `${API_URL.replace("/api", "")}${path}`
+}
+
 function getToken() {
   if (typeof window === "undefined") return null
   return localStorage.getItem("token")
@@ -164,10 +170,28 @@ export const api = {
   aiChat: (businessId: string, message: string) =>
     request(`/ai/${businessId}/chat`, { method: "POST", body: JSON.stringify({ message }) }),
 
+  // Uploads
+  uploadImage: async (file: File) => {
+    const token = getToken()
+    const formData = new FormData()
+    formData.append("image", file)
+    const headers: Record<string, string> = {}
+    if (token) headers["Authorization"] = `Bearer ${token}`
+    const res = await fetch(`${API_URL}/uploads/image`, {
+      method: "POST",
+      headers,
+      body: formData,
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || "Upload failed")
+    return data as { url: string; filename: string }
+  },
+
   // Token management
   setToken,
   removeToken,
   getToken,
   setBusinessId,
   getBusinessId,
+  imageUrl,
 }
