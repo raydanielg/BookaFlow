@@ -93,12 +93,12 @@ export function SignupForm({
         </div>
         <Button
           size="lg"
-          className="w-full"
+          className="w-full shadow-md shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]"
           nativeButton={false}
           render={<a href="/dashboard" />}
         >
           Go to dashboard
-          <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+          <HugeiconsIcon icon={ArrowRight01Icon} className="size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
         </Button>
       </div>
     )
@@ -205,7 +205,7 @@ export function SignupForm({
             <Button
               type="submit"
               size="lg"
-              className="h-11 w-full text-base"
+              className="h-11 w-full text-base shadow-md shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]"
               disabled={!agree}
               loading={loading}
             >

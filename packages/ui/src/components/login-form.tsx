@@ -111,7 +111,7 @@ export function LoginForm({
                 />
               </Field>
               <Field>
-                <Button type="submit" size="lg" className="h-11 w-full text-base" loading={loading}>
+                <Button type="submit" size="lg" className="h-11 w-full text-base shadow-md shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]" loading={loading}>
                   Continue
                 </Button>
               </Field>
@@ -148,7 +148,7 @@ export function LoginForm({
                 />
               </Field>
               <Field>
-                <Button type="submit" size="lg" className="h-11 w-full text-base" loading={loading}>
+                <Button type="submit" size="lg" className="h-11 w-full text-base shadow-md shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]" loading={loading}>
                   Login
                 </Button>
               </Field>

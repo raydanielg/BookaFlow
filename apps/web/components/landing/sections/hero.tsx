@@ -36,17 +36,17 @@ export function Hero() {
             <Link href="/signup">
               <Button
                 size="lg"
-                className="transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+                className="shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]"
               >
                 Start free today
-                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="size-4.5 transition-transform duration-300 group-hover/button:translate-x-1" />
               </Button>
             </Link>
             <Link href="/login">
               <Button
                 size="lg"
                 variant="outline"
-                className="transition-all duration-300 hover:scale-[1.02]"
+                className="transition-all duration-300 hover:scale-[1.03] hover:border-primary/40 hover:shadow-md active:scale-[0.98]"
               >
                 Sign in
               </Button>

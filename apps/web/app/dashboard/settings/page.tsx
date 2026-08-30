@@ -348,7 +348,7 @@ export default function SettingsPage() {
           </Card>
 
           <div className="flex justify-end">
-            <Button type="submit" loading={saving}>
+            <Button type="submit" loading={saving} className="shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Save Profile
             </Button>
@@ -411,7 +411,7 @@ export default function SettingsPage() {
           </Card>
 
           <div className="flex justify-end">
-            <Button type="submit" loading={seoSaving}>
+            <Button type="submit" loading={seoSaving} className="shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Save SEO
             </Button>
@@ -481,7 +481,7 @@ export default function SettingsPage() {
           </Card>
 
           <div className="flex justify-end">
-            <Button type="submit" loading={bookingSaving}>
+            <Button type="submit" loading={bookingSaving} className="shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Save Booking Rules
             </Button>

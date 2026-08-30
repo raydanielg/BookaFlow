@@ -192,8 +192,8 @@ export default function BusinessProfilePage() {
           </div>
           <div className="flex shrink-0 gap-2">
             <Link href={`/book/${business.slug}`}>
-              <Button size="lg">
-                <HugeiconsIcon icon={Calendar03Icon} className="size-4" />
+              <Button size="lg" className="shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]">
+                <HugeiconsIcon icon={Calendar03Icon} className="size-4.5" />
                 Book appointment
               </Button>
             </Link>
@@ -245,9 +245,9 @@ export default function BusinessProfilePage() {
                       )}
                     </div>
                     <Link href={`/book/${business.slug}?service=${service.id}`}>
-                      <Button size="sm" variant="outline" className="mt-1 w-full">
+                      <Button size="sm" variant="outline" className="mt-1 w-full transition-all duration-300 hover:border-primary/40 hover:shadow-sm active:scale-[0.98]">
                         Book this
-                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
+                        <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5 transition-transform duration-300 group-hover/button:translate-x-0.5" />
                       </Button>
                     </Link>
                   </div>
@@ -407,9 +407,9 @@ export default function BusinessProfilePage() {
               <h3 className="text-sm font-semibold">Ready to book?</h3>
               <p className="mt-1 text-xs text-primary-foreground/80">Schedule your appointment online in just a few clicks.</p>
               <Link href={`/book/${business.slug}`}>
-                <Button variant="secondary" size="sm" className="mt-3 w-full">
+                <Button variant="secondary" size="sm" className="mt-3 w-full shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md active:scale-[0.98]">
                   Book now
-                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
+                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5 transition-transform duration-300 group-hover/button:translate-x-0.5" />
                 </Button>
               </Link>
             </div>

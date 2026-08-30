@@ -170,10 +170,10 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                     <button
                       key={s.id}
                       onClick={() => setSelectedService(s.id)}
-                      className={`flex items-center justify-between rounded-lg border p-4 text-left transition-colors ${
+                      className={`flex items-center justify-between rounded-xl border p-4 text-left transition-all duration-300 ${
                         selectedService === s.id
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:bg-muted/30"
+                          ? "border-primary bg-primary/5 shadow-sm shadow-primary/10"
+                          : "border-border hover:border-primary/30 hover:shadow-sm"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -194,10 +194,10 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
               <Button
                 disabled={selectedService === null}
                 onClick={() => setStep(2)}
-                className="w-full"
+                className="w-full shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]"
               >
                 Continue
-                <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4" />
+                <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
               </Button>
             </div>
           )}
@@ -238,10 +238,10 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                     <button
                       key={day}
                       onClick={() => setSelectedDay(day)}
-                      className={`flex h-8 items-center justify-center rounded-md text-xs transition-colors ${
+                      className={`flex h-8 items-center justify-center rounded-lg text-xs transition-all duration-200 ${
                         selectedDay === day
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-muted"
+                          ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
+                          : "hover:bg-muted hover:shadow-sm"
                       }`}
                     >
                       {day}
@@ -261,10 +261,10 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                         <button
                           key={time}
                           onClick={() => setSelectedTime(time)}
-                          className={`rounded-lg border py-2 text-sm tabular-nums transition-colors ${
+                          className={`rounded-lg border py-2 text-sm tabular-nums transition-all duration-200 ${
                             selectedTime === time
-                              ? "border-primary bg-primary/5 text-primary"
-                              : "border-border hover:bg-muted/30"
+                              ? "border-primary bg-primary text-primary-foreground shadow-sm shadow-primary/20"
+                              : "border-border hover:border-primary/30 hover:shadow-sm"
                           }`}
                         >
                           {time}
@@ -276,17 +276,17 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
               )}
 
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(1)} className="flex-1">
-                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4" />
+                <Button variant="outline" onClick={() => setStep(1)} className="flex-1 transition-all duration-300 hover:border-primary/30 active:scale-[0.98]">
+                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:-translate-x-0.5" />
                   Back
                 </Button>
                 <Button
                   disabled={selectedStaff === null || selectedDay === null || selectedTime === null}
                   onClick={() => setStep(3)}
-                  className="flex-1"
+                  className="flex-1 shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]"
                 >
                   Continue
-                  <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4" />
+                  <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:translate-x-1" />
                 </Button>
               </div>
             </div>
@@ -309,14 +309,14 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                 <Input placeholder="you@example.com" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} />
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(2)} className="flex-1">
-                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4" />
+                <Button variant="outline" onClick={() => setStep(2)} className="flex-1 transition-all duration-300 hover:border-primary/30 active:scale-[0.98]">
+                  <HugeiconsIcon icon={ArrowLeft01Icon} strokeWidth={2} className="size-4 transition-transform duration-300 group-hover/button:-translate-x-0.5" />
                   Back
                 </Button>
                 <Button
                   disabled={!customerName || !customerPhone || submitting}
                   onClick={handleConfirm}
-                  className="flex-1"
+                  className="flex-1 shadow-md shadow-primary/25 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 active:scale-[0.98]"
                   loading={submitting}
                 >
                   Confirm Booking
@@ -349,7 +349,7 @@ export default function BookingPage({ params }: { params: { slug: string } }) {
                 setCustomerName("")
                 setCustomerPhone("")
                 setCustomerEmail("")
-              }}>
+              }} className="transition-all duration-300 hover:border-primary/30 hover:shadow-sm active:scale-[0.98]">
                 Book Another
               </Button>
             </div>
