@@ -46,6 +46,12 @@ type BusinessData = {
     ogImage: string | null
     canonicalUrl: string | null
   } | null
+  gallery: string[]
+  bio: string | null
+  yearsOfExperience: number | null
+  specialties: string | null
+  languages: string | null
+  certifications: { name: string; issuer: string; year: string }[] | null
   bookingSettings: {
     bookingEnabled: boolean
     advanceBookingDays: number
@@ -73,7 +79,8 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false)
   const [seoSaving, setSeoSaving] = useState(false)
   const [bookingSaving, setBookingSaving] = useState(false)
-  const [activeTab, setActiveTab] = useState<"profile" | "seo" | "booking">("profile")
+  const [detailsSaving, setDetailsSaving] = useState(false)
+  const [activeTab, setActiveTab] = useState<"profile" | "details" | "seo" | "booking">("profile")
 
   useEffect(() => {
     if (!businessId) return
@@ -165,6 +172,38 @@ export default function SettingsPage() {
     }
   }
 
+  async function saveDetails(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (!businessId) return
+    setDetailsSaving(true)
+    const formData = new FormData(e.currentTarget)
+    const galleryUrls = formData.getAll("galleryUrl") as string[]
+    const certNames = formData.getAll("certName") as string[]
+    const certIssuers = formData.getAll("certIssuer") as string[]
+    const certYears = formData.getAll("certYear") as string[]
+    const certifications = certNames.map((name, i) => ({
+      name,
+      issuer: certIssuers[i] || "",
+      year: certYears[i] || "",
+    })).filter((c) => c.name)
+    const body: Record<string, unknown> = {
+      bio: formData.get("bio") || undefined,
+      yearsOfExperience: formData.get("yearsOfExperience") ? parseInt(formData.get("yearsOfExperience") as string, 10) : undefined,
+      specialties: formData.get("specialties") || undefined,
+      languages: formData.get("languages") || undefined,
+      gallery: galleryUrls.filter((u) => u.trim()).length > 0 ? JSON.stringify(galleryUrls.filter((u) => u.trim())) : undefined,
+      certifications: certifications.length > 0 ? JSON.stringify(certifications) : undefined,
+    }
+    try {
+      await api.updateBusiness(businessId, body)
+      toast.add({ type: "success", title: "Profile details saved", description: "Your profile details have been updated." })
+    } catch (err) {
+      toast.add({ type: "error", title: "Save failed", description: err instanceof Error ? err.message : "Something went wrong" })
+    } finally {
+      setDetailsSaving(false)
+    }
+  }
+
   return (
     <>
       <PageHeader
@@ -174,7 +213,7 @@ export default function SettingsPage() {
 
       {/* Tabs */}
       <div className="flex items-center gap-1 rounded-lg border border-border p-1 w-fit">
-        {(["profile", "seo", "booking"] as const).map((tab) => (
+        {(["profile", "details", "seo", "booking"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -182,7 +221,7 @@ export default function SettingsPage() {
               activeTab === tab ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {tab === "seo" ? "SEO" : tab === "booking" ? "Booking Rules" : "Profile"}
+            {tab === "seo" ? "SEO" : tab === "booking" ? "Booking Rules" : tab === "details" ? "Profile Details" : "Profile"}
           </button>
         ))}
       </div>
@@ -351,6 +390,103 @@ export default function SettingsPage() {
             <Button type="submit" loading={saving} className="shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]">
               <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
               Save Profile
+            </Button>
+          </div>
+        </form>
+      )}
+
+      {/* Profile Details Tab */}
+      {activeTab === "details" && (
+        <form onSubmit={saveDetails} className="flex flex-col gap-6">
+          {/* Bio */}
+          <Card className="gap-0 p-6">
+            <div className="border-b border-border/60 pb-4">
+              <h2 className="text-base font-semibold tracking-tight">Professional Bio</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Tell customers about your background and expertise. This appears prominently on your profile.</p>
+            </div>
+            <div className="grid gap-4 pt-4">
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-xs">Bio / About Me</Label>
+                <textarea name="bio" defaultValue={data.bio || ""} rows={5} className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Write a detailed bio about yourself, your career, achievements, and what makes you unique..." />
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-1.5">
+                  <Label className="text-xs">Years of Experience</Label>
+                  <Input name="yearsOfExperience" type="number" min={0} defaultValue={data.yearsOfExperience ?? ""} placeholder="5" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <Label className="text-xs">Languages Spoken (comma separated)</Label>
+                  <Input name="languages" defaultValue={data.languages || ""} placeholder="English, Swahili, French" />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-xs">Specialties / Expertise (comma separated)</Label>
+                <Input name="specialties" defaultValue={data.specialties || ""} placeholder="Hair Coloring, Bridal Makeup, Skin Care" />
+              </div>
+            </div>
+          </Card>
+
+          {/* Gallery */}
+          <Card className="gap-0 p-6">
+            <div className="border-b border-border/60 pb-4">
+              <h2 className="text-base font-semibold tracking-tight">Gallery Images</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Add image URLs to showcase your work on your profile.</p>
+            </div>
+            <div className="grid gap-3 pt-4">
+              {data.gallery && data.gallery.length > 0 ? (
+                data.gallery.map((url, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Input name="galleryUrl" defaultValue={url} placeholder="https://..." className="flex-1" />
+                    <div className="size-9 shrink-0 overflow-hidden rounded-lg border border-border">
+                      <img src={url} alt="" className="h-full w-full object-cover" />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Input name="galleryUrl" placeholder="https://...image-url.jpg" className="flex-1" />
+                </div>
+              )}
+              {/* Extra empty slots */}
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={`empty-${i}`} className="flex items-center gap-2">
+                  <Input name="galleryUrl" placeholder="https://...image-url.jpg" className="flex-1" />
+                </div>
+              ))}
+              <p className="text-xs text-muted-foreground">Tip: Upload images to a service like Imgur or Cloudinary and paste the direct URL here.</p>
+            </div>
+          </Card>
+
+          {/* Certifications */}
+          <Card className="gap-0 p-6">
+            <div className="border-b border-border/60 pb-4">
+              <h2 className="text-base font-semibold tracking-tight">Certifications & Qualifications</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Add your professional certifications to build trust.</p>
+            </div>
+            <div className="grid gap-3 pt-4">
+              {data.certifications && data.certifications.length > 0 ? (
+                data.certifications.map((cert, i) => (
+                  <div key={i} className="grid gap-2 sm:grid-cols-3">
+                    <Input name="certName" defaultValue={cert.name} placeholder="Certificate name" />
+                    <Input name="certIssuer" defaultValue={cert.issuer} placeholder="Issued by" />
+                    <Input name="certYear" defaultValue={cert.year} placeholder="Year" />
+                  </div>
+                ))
+              ) : null}
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={`new-cert-${i}`} className="grid gap-2 sm:grid-cols-3">
+                  <Input name="certName" placeholder="Certificate name" />
+                  <Input name="certIssuer" placeholder="Issued by" />
+                  <Input name="certYear" placeholder="Year" />
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <div className="flex justify-end">
+            <Button type="submit" loading={detailsSaving} className="shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-md hover:shadow-primary/25 active:scale-[0.98]">
+              <HugeiconsIcon icon={CheckmarkCircle01Icon} className="size-4" />
+              Save Profile Details
             </Button>
           </div>
         </form>

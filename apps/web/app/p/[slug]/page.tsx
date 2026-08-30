@@ -15,6 +15,11 @@ import {
   ClockIcon,
   Calendar03Icon,
   ArrowRight01Icon,
+  BadgeCheckIcon,
+  LanguageSkillIcon,
+  TimeQuarterPassIcon,
+  Award01Icon,
+  UserCircleIcon,
 } from "@hugeicons/core-free-icons"
 import { Button } from "@workspace/ui/components/button"
 import { api } from "@workspace/ui/lib/api"
@@ -42,6 +47,12 @@ type Profile = {
     tiktok: string | null
     whatsapp: string | null
     bookingLink: string | null
+    gallery: string[]
+    bio: string | null
+    yearsOfExperience: number | null
+    specialties: string[]
+    languages: string[]
+    certifications: { name: string; issuer: string; year: string }[]
     workingHours: { day: string; startTime: string; endTime: string; isOff: boolean }[]
   }
   seo: {
@@ -76,22 +87,18 @@ type Profile = {
 }
 
 const dayNames: Record<string, string> = {
-  MONDAY: "Monday",
-  TUESDAY: "Tuesday",
-  WEDNESDAY: "Wednesday",
-  THURSDAY: "Thursday",
-  FRIDAY: "Friday",
-  SATURDAY: "Saturday",
-  SUNDAY: "Sunday",
+  MONDAY: "Mon", TUESDAY: "Tue", WEDNESDAY: "Wed", THURSDAY: "Thu",
+  FRIDAY: "Fri", SATURDAY: "Sat", SUNDAY: "Sun",
+}
+
+const dayNamesFull: Record<string, string> = {
+  MONDAY: "Monday", TUESDAY: "Tuesday", WEDNESDAY: "Wednesday", THURSDAY: "Thursday",
+  FRIDAY: "Friday", SATURDAY: "Saturday", SUNDAY: "Sunday",
 }
 
 const businessTypeLabels: Record<string, string> = {
-  SALON: "Beauty Salon",
-  CLINIC: "Healthcare Clinic",
-  SPA: "Spa & Wellness",
-  GYM: "Fitness & Gym",
-  CONSULTATION: "Consultation",
-  OTHER: "Business",
+  SALON: "Beauty Salon", CLINIC: "Healthcare Clinic", SPA: "Spa & Wellness",
+  GYM: "Fitness & Gym", CONSULTATION: "Consultation", OTHER: "Professional",
 }
 
 export default function BusinessProfilePage() {
@@ -128,9 +135,7 @@ export default function BusinessProfilePage() {
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4 text-center">
           <p className="text-lg font-semibold text-foreground">{error}</p>
-          <Link href="/">
-            <Button variant="outline">Back to home</Button>
-          </Link>
+          <Link href="/"><Button variant="outline">Back to home</Button></Link>
         </div>
       </div>
     )
@@ -141,131 +146,213 @@ export default function BusinessProfilePage() {
   const { business, services, staff, reviews, rating, reviewCount } = profile
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Cover Image */}
-      <div className="relative h-48 w-full bg-gradient-to-br from-primary/20 via-primary/5 to-background sm:h-64 lg:h-80">
+    <div className="min-h-screen bg-gradient-to-b from-muted/30 to-background">
+      {/* Cover */}
+      <div className="relative h-40 w-full bg-gradient-to-br from-primary/20 via-primary/5 to-background sm:h-56 lg:h-64">
         {business.coverImage && (
-          <img
-            src={business.coverImage}
-            alt={business.name}
-            className="h-full w-full object-cover"
-          />
+          <img src={business.coverImage} alt={business.name} className="h-full w-full object-cover" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="-mt-12 flex flex-col gap-4 sm:-mt-16 sm:flex-row sm:items-end sm:gap-6">
-          <div className="size-24 shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-muted shadow-lg sm:size-32">
-            {business.logo ? (
-              <img src={business.logo} alt={business.name} className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-muted-foreground">
-                {business.name.charAt(0)}
-              </div>
-            )}
-          </div>
-          <div className="flex flex-1 flex-col gap-2 pb-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{business.name}</h1>
-              {rating && (
-                <div className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1">
-                  <HugeiconsIcon icon={StarIcon} className="size-4 text-amber-500" />
-                  <span className="text-sm font-semibold">{rating}</span>
-                  <span className="text-xs text-muted-foreground">({reviewCount})</span>
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        {/* Header Card */}
+        <div className="-mt-16 rounded-2xl border border-border bg-card p-5 shadow-lg sm:-mt-20 sm:p-6">
+          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
+            {/* Profile Image */}
+            <div className="size-24 shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-muted shadow-md sm:size-28 lg:size-32">
+              {business.logo ? (
+                <img src={business.logo} alt={business.name} className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-4xl font-bold text-primary/30">
+                  {business.name.charAt(0)}
                 </div>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <span className="font-medium text-primary">{businessTypeLabels[business.type] || "Business"}</span>
-              {business.city && (
-                <span className="flex items-center gap-1">
-                  <HugeiconsIcon icon={MapPinIcon} className="size-3.5" />
-                  {business.city}{business.region ? `, ${business.region}` : ""}
-                </span>
+
+            {/* Name & Title */}
+            <div className="flex flex-1 flex-col gap-1.5">
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+                <h1 className="text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl">{business.name}</h1>
+                {rating && (
+                  <div className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 dark:bg-amber-950/30">
+                    <HugeiconsIcon icon={StarIcon} className="size-3.5 text-amber-500" />
+                    <span className="text-xs font-semibold">{rating}</span>
+                    <span className="text-xs text-muted-foreground">({reviewCount})</span>
+                  </div>
+                )}
+              </div>
+              <p className="text-sm font-medium text-primary">{businessTypeLabels[business.type] || "Professional"}</p>
+              {business.shortDescription && (
+                <p className="text-sm text-muted-foreground text-pretty">{business.shortDescription}</p>
               )}
+              <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground sm:justify-start">
+                {business.city && (
+                  <span className="flex items-center gap-1">
+                    <HugeiconsIcon icon={MapPinIcon} className="size-3.5" />
+                    {business.city}{business.region ? `, ${business.region}` : ""}
+                  </span>
+                )}
+                {business.yearsOfExperience != null && (
+                  <span className="flex items-center gap-1">
+                    <HugeiconsIcon icon={TimeQuarterPassIcon} className="size-3.5" />
+                    {business.yearsOfExperience} yr{business.yearsOfExperience !== 1 ? "s" : ""} exp
+                  </span>
+                )}
+              </div>
             </div>
-            {business.shortDescription && (
-              <p className="text-sm text-muted-foreground text-pretty">{business.shortDescription}</p>
-            )}
           </div>
-          <div className="flex shrink-0 gap-2">
-            <Link href={`/book/${business.slug}`}>
-              <Button size="lg" className="shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]">
-                <HugeiconsIcon icon={Calendar03Icon} className="size-4.5" />
-                Book appointment
-              </Button>
-            </Link>
+
+          {/* Quick Contact Bar */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2 border-t border-border/60 pt-4 sm:justify-start">
+            {business.phone && (
+              <a href={`tel:${business.phone}`} className="flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5 text-xs font-medium transition-colors hover:bg-primary/10 hover:text-primary">
+                <HugeiconsIcon icon={PhoneIcon} className="size-3.5" />
+                {business.phone}
+              </a>
+            )}
+            {business.email && (
+              <a href={`mailto:${business.email}`} className="flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5 text-xs font-medium transition-colors hover:bg-primary/10 hover:text-primary">
+                <HugeiconsIcon icon={MailIcon} className="size-3.5" />
+                {business.email}
+              </a>
+            )}
+            {business.whatsapp && (
+              <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400">
+                <span className="font-bold">WA</span>
+                WhatsApp
+              </a>
+            )}
           </div>
         </div>
 
         {/* Content */}
-        <div className="mt-10 grid gap-8 lg:grid-cols-3">
-          {/* Main */}
-          <div className="flex flex-col gap-8 lg:col-span-2">
-            {/* About */}
-            {business.description && (
-              <section>
-                <h2 className="mb-3 text-lg font-semibold tracking-tight">About</h2>
-                <p className="text-sm leading-7 text-muted-foreground text-pretty">{business.description}</p>
+        <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:gap-8">
+          {/* Main Column */}
+          <div className="flex flex-col gap-6 lg:flex-1">
+            {/* Bio */}
+            {business.bio && (
+              <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+                <h2 className="mb-3 text-base font-semibold tracking-tight sm:text-lg">About</h2>
+                <p className="text-sm leading-7 text-muted-foreground text-pretty">{business.bio}</p>
+              </section>
+            )}
+
+            {/* Specialties & Languages */}
+            {(business.specialties.length > 0 || business.languages.length > 0) && (
+              <section className="grid gap-4 sm:grid-cols-2">
+                {business.specialties.length > 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-5">
+                    <div className="mb-3 flex items-center gap-2">
+                      <HugeiconsIcon icon={BadgeCheckIcon} className="size-4 text-primary" />
+                      <h2 className="text-sm font-semibold tracking-tight">Specialties</h2>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {business.specialties.map((s, i) => (
+                        <span key={i} className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {business.languages.length > 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-5">
+                    <div className="mb-3 flex items-center gap-2">
+                      <HugeiconsIcon icon={LanguageSkillIcon} className="size-4 text-primary" />
+                      <h2 className="text-sm font-semibold tracking-tight">Languages</h2>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {business.languages.map((l, i) => (
+                        <span key={i} className="rounded-full bg-muted px-3 py-1 text-xs font-medium">
+                          {l}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* Gallery */}
+            {business.gallery.length > 0 && (
+              <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+                <h2 className="mb-4 text-base font-semibold tracking-tight sm:text-lg">Gallery</h2>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
+                  {business.gallery.map((url, i) => (
+                    <div key={i} className="aspect-square overflow-hidden rounded-xl border border-border">
+                      <img src={url} alt={`Gallery ${i + 1}`} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Certifications */}
+            {business.certifications.length > 0 && (
+              <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+                <div className="mb-4 flex items-center gap-2">
+                  <HugeiconsIcon icon={Award01Icon} className="size-4 text-primary" />
+                  <h2 className="text-base font-semibold tracking-tight sm:text-lg">Certifications</h2>
+                </div>
+                <div className="flex flex-col gap-3">
+                  {business.certifications.map((cert, i) => (
+                    <div key={i} className="flex items-start gap-3 rounded-xl border border-border p-3">
+                      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                        <HugeiconsIcon icon={Award01Icon} className="size-4 text-primary" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold">{cert.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {cert.issuer}{cert.year ? ` · ${cert.year}` : ""}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </section>
             )}
 
             {/* Services */}
-            <section>
-              <h2 className="mb-4 text-lg font-semibold tracking-tight">Our Services</h2>
+            <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+              <h2 className="mb-4 text-base font-semibold tracking-tight sm:text-lg">Services</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {services.map((service) => (
-                  <div
-                    key={service.id}
-                    className="group flex flex-col gap-2 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/30 hover:shadow-sm"
-                  >
+                  <div key={service.id} className="group flex flex-col gap-2 rounded-xl border border-border p-4 transition-all hover:border-primary/30 hover:shadow-sm">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex flex-col gap-0.5">
                         <h3 className="text-sm font-semibold">{service.name}</h3>
-                        {service.category && (
-                          <span className="text-xs text-muted-foreground">{service.category}</span>
-                        )}
+                        {service.category && <span className="text-xs text-muted-foreground">{service.category}</span>}
                       </div>
-                      <span className="shrink-0 text-sm font-bold text-primary">
-                        TZS {service.price.toLocaleString()}
-                      </span>
+                      <span className="shrink-0 text-sm font-bold text-primary">TZS {service.price.toLocaleString()}</span>
                     </div>
-                    {service.description && (
-                      <p className="text-xs text-muted-foreground text-pretty">{service.description}</p>
-                    )}
+                    {service.description && <p className="text-xs text-muted-foreground text-pretty">{service.description}</p>}
                     <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <HugeiconsIcon icon={ClockIcon} className="size-3.5" />
                         {service.duration} min
                       </span>
-                      {service.deposit && (
-                        <span>Deposit: TZS {service.deposit.toLocaleString()}</span>
-                      )}
                     </div>
                     <Link href={`/book/${business.slug}?service=${service.id}`}>
-                      <Button size="sm" variant="outline" className="mt-1 w-full transition-all duration-300 hover:border-primary/40 hover:shadow-sm active:scale-[0.98]">
+                      <Button size="sm" variant="outline" className="mt-1 w-full">
                         Book this
                         <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
                       </Button>
                     </Link>
                   </div>
                 ))}
-                {services.length === 0 && (
-                  <p className="col-span-full text-sm text-muted-foreground">No services available yet.</p>
-                )}
+                {services.length === 0 && <p className="col-span-full text-sm text-muted-foreground">No services available yet.</p>}
               </div>
             </section>
 
             {/* Team */}
             {staff.length > 0 && (
-              <section>
-                <h2 className="mb-4 text-lg font-semibold tracking-tight">Our Team</h2>
-                <div className="grid gap-3 sm:grid-cols-3">
+              <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+                <h2 className="mb-4 text-base font-semibold tracking-tight sm:text-lg">Team</h2>
+                <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
                   {staff.map((member) => (
-                    <div key={member.id} className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-center">
-                      <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-lg font-semibold text-primary">
+                    <div key={member.id} className="flex flex-col items-center gap-2 rounded-xl border border-border p-4 text-center">
+                      <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-base font-semibold text-primary">
                         {member.name.charAt(0)}
                       </div>
                       <p className="text-sm font-semibold">{member.name}</p>
@@ -278,36 +365,32 @@ export default function BusinessProfilePage() {
 
             {/* Reviews */}
             {reviews.length > 0 && (
-              <section>
+              <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-lg font-semibold tracking-tight">Reviews</h2>
+                  <h2 className="text-base font-semibold tracking-tight sm:text-lg">Reviews</h2>
                   {rating && (
                     <div className="flex items-center gap-1.5">
                       <HugeiconsIcon icon={StarIcon} className="size-4 text-amber-500" />
                       <span className="text-sm font-semibold">{rating}</span>
-                      <span className="text-xs text-muted-foreground">({reviewCount} reviews)</span>
+                      <span className="text-xs text-muted-foreground">({reviewCount})</span>
                     </div>
                   )}
                 </div>
                 <div className="flex flex-col gap-3">
                   {reviews.map((review) => (
-                    <div key={review.id} className="rounded-xl border border-border bg-card p-4">
+                    <div key={review.id} className="rounded-xl border border-border p-4">
                       <div className="flex items-center justify-between gap-3">
                         <p className="text-sm font-semibold">{review.customerName}</p>
                         <div className="flex items-center gap-0.5">
                           {Array.from({ length: 5 }).map((_, i) => (
-                            <HugeiconsIcon
-                              key={i}
-                              icon={StarIcon}
-                              className={`size-3.5 ${i < review.rating ? "text-amber-500" : "text-muted"}`}
-                            />
+                            <HugeiconsIcon key={i} icon={StarIcon} className={`size-3.5 ${i < review.rating ? "text-amber-500" : "text-muted"}`} />
                           ))}
                         </div>
                       </div>
                       {review.comment && <p className="mt-2 text-sm text-muted-foreground text-pretty">{review.comment}</p>}
                       {review.reply && (
                         <div className="mt-3 rounded-lg bg-muted/40 p-3">
-                          <p className="text-xs font-medium text-foreground">Response from {business.name}</p>
+                          <p className="text-xs font-medium">Response from {business.name}</p>
                           <p className="mt-1 text-xs text-muted-foreground text-pretty">{review.reply}</p>
                         </div>
                       )}
@@ -316,35 +399,47 @@ export default function BusinessProfilePage() {
                 </div>
               </section>
             )}
+
+            {/* Book Appointment CTA */}
+            <section className="rounded-2xl bg-gradient-to-br from-primary to-primary/90 p-6 text-center text-primary-foreground shadow-lg sm:p-8">
+              <h2 className="text-lg font-bold sm:text-xl">Ready to book an appointment?</h2>
+              <p className="mt-1.5 text-sm text-primary-foreground/80">Schedule online in just a few clicks. It's quick and easy.</p>
+              <Link href={`/book/${business.slug}`}>
+                <Button variant="secondary" size="lg" className="mt-4 w-full shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] sm:w-auto">
+                  <HugeiconsIcon icon={Calendar03Icon} className="size-5" />
+                  Book Appointment
+                </Button>
+              </Link>
+            </section>
           </div>
 
           {/* Sidebar */}
-          <div className="flex flex-col gap-6">
-            {/* Contact */}
-            <div className="rounded-xl border border-border bg-card p-5">
+          <div className="flex flex-col gap-4 lg:w-72 lg:shrink-0">
+            {/* Contact Info */}
+            <div className="rounded-2xl border border-border bg-card p-5">
               <h3 className="mb-3 text-sm font-semibold">Contact</h3>
               <div className="flex flex-col gap-2.5 text-sm">
                 {business.phone && (
                   <a href={`tel:${business.phone}`} className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
-                    <HugeiconsIcon icon={PhoneIcon} className="size-4 shrink-0" />
+                    <HugeiconsIcon icon={PhoneIcon} className="size-4 shrink-0 text-primary" />
                     {business.phone}
                   </a>
                 )}
                 {business.email && (
                   <a href={`mailto:${business.email}`} className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
-                    <HugeiconsIcon icon={MailIcon} className="size-4 shrink-0" />
-                    {business.email}
+                    <HugeiconsIcon icon={MailIcon} className="size-4 shrink-0 text-primary" />
+                    <span className="truncate">{business.email}</span>
                   </a>
                 )}
                 {business.website && (
                   <a href={business.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
-                    <HugeiconsIcon icon={GlobeIcon} className="size-4 shrink-0" />
-                    Website
+                    <HugeiconsIcon icon={GlobeIcon} className="size-4 shrink-0 text-primary" />
+                    <span className="truncate">Website</span>
                   </a>
                 )}
                 {business.address && (
                   <div className="flex items-start gap-2 text-muted-foreground">
-                    <HugeiconsIcon icon={MapPinIcon} className="size-4 shrink-0 mt-0.5" />
+                    <HugeiconsIcon icon={MapPinIcon} className="size-4 shrink-0 mt-0.5 text-primary" />
                     <span>{business.address}{business.city ? `, ${business.city}` : ""}</span>
                   </div>
                 )}
@@ -358,14 +453,17 @@ export default function BusinessProfilePage() {
 
             {/* Working Hours */}
             {business.workingHours.length > 0 && (
-              <div className="rounded-xl border border-border bg-card p-5">
-                <h3 className="mb-3 text-sm font-semibold">Working Hours</h3>
-                <div className="flex flex-col gap-1.5">
+              <div className="rounded-2xl border border-border bg-card p-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <HugeiconsIcon icon={ClockIcon} className="size-4 text-primary" />
+                  <h3 className="text-sm font-semibold">Working Hours</h3>
+                </div>
+                <div className="flex flex-col gap-1">
                   {business.workingHours.map((wh) => (
-                    <div key={wh.day} className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">{dayNames[wh.day] || wh.day}</span>
-                      <span className={wh.isOff ? "text-muted-foreground" : "font-medium"}>
-                        {wh.isOff ? "Closed" : `${wh.startTime} ??? ${wh.endTime}`}
+                    <div key={wh.day} className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">{dayNamesFull[wh.day] || wh.day}</span>
+                      <span className={wh.isOff ? "text-muted-foreground/60" : "font-medium"}>
+                        {wh.isOff ? "Closed" : `${wh.startTime} — ${wh.endTime}`}
                       </span>
                     </div>
                   ))}
@@ -375,51 +473,39 @@ export default function BusinessProfilePage() {
 
             {/* Social */}
             {(business.instagram || business.facebook || business.whatsapp || business.tiktok) && (
-              <div className="rounded-xl border border-border bg-card p-5">
+              <div className="rounded-2xl border border-border bg-card p-5">
                 <h3 className="mb-3 text-sm font-semibold">Follow</h3>
                 <div className="flex flex-wrap gap-2">
                   {business.instagram && (
-                    <a href={business.instagram} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted hover:bg-primary/10 hover:text-primary transition-colors">
+                    <a href={business.instagram} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted transition-colors hover:bg-primary/10 hover:text-primary">
                       <HugeiconsIcon icon={InstagramIcon} className="size-4" />
                     </a>
                   )}
                   {business.facebook && (
-                    <a href={business.facebook} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted hover:bg-primary/10 hover:text-primary transition-colors">
+                    <a href={business.facebook} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted transition-colors hover:bg-primary/10 hover:text-primary">
                       <HugeiconsIcon icon={FacebookIcon} className="size-4" />
                     </a>
                   )}
                   {business.whatsapp && (
-                    <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted hover:bg-primary/10 hover:text-primary transition-colors">
+                    <a href={business.whatsapp} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted transition-colors hover:bg-emerald-100 hover:text-emerald-600">
                       <span className="text-xs font-bold">WA</span>
                     </a>
                   )}
                   {business.tiktok && (
-                    <a href={business.tiktok} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted hover:bg-primary/10 hover:text-primary transition-colors">
+                    <a href={business.tiktok} target="_blank" rel="noopener noreferrer" className="flex size-9 items-center justify-center rounded-lg bg-muted transition-colors hover:bg-primary/10 hover:text-primary">
                       <span className="text-xs font-bold">TT</span>
                     </a>
                   )}
                 </div>
               </div>
             )}
-
-            {/* CTA */}
-            <div className="rounded-xl bg-primary p-5 text-primary-foreground">
-              <h3 className="text-sm font-semibold">Ready to book?</h3>
-              <p className="mt-1 text-xs text-primary-foreground/80">Schedule your appointment online in just a few clicks.</p>
-              <Link href={`/book/${business.slug}`}>
-                <Button variant="secondary" size="sm" className="mt-3 w-full shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md active:scale-[0.98]">
-                  Book now
-                  <HugeiconsIcon icon={ArrowRight01Icon} className="size-3.5" />
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 border-t border-border py-6">
+        <footer className="mt-10 border-t border-border py-6">
           <p className="text-center text-xs text-muted-foreground">
-            Powered by BookaFlow ?? <Link href="/" className="hover:text-foreground">Create your own booking page</Link>
+            Powered by BookaFlow · <Link href="/" className="hover:text-foreground">Create your own booking page</Link>
           </p>
         </footer>
       </div>
