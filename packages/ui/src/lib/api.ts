@@ -177,6 +177,7 @@ export const api = {
     formData.append("image", file)
     const headers: Record<string, string> = {}
     if (token) headers["Authorization"] = `Bearer ${token}`
+    // Do NOT set Content-Type — browser will set multipart/form-data with boundary automatically
     const res = await fetch(`${API_URL}/uploads/image`, {
       method: "POST",
       headers,
