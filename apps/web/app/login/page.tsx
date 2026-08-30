@@ -1,9 +1,15 @@
+import type { Metadata } from "next"
 import { LoginForm } from "@workspace/ui/components/login-form"
 import Image from "next/image"
 
-export const metadata = {
-  title: "BookMiadi — Sign in",
-  description: "Sign in to your BookMiadi account.",
+export const metadata: Metadata = {
+  title: "Sign in",
+  description: "Sign in to your BookMiadi account and manage your bookings.",
+  openGraph: {
+    title: "BookMiadi — Sign in",
+    description: "Sign in to your BookMiadi account and manage your bookings.",
+    images: ["/team-young-african-people-office-table-with-laptops_219728-4522.jpg"],
+  },
 }
 
 export default function LoginPage() {

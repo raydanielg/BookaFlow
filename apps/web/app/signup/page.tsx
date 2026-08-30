@@ -1,9 +1,15 @@
+import type { Metadata } from "next"
 import { SignupForm } from "@workspace/ui/components/signup-form"
 import Image from "next/image"
 
-export const metadata = {
-  title: "BookMiadi — Sign up",
-  description: "Create your BookMiadi account and start managing your bookings.",
+export const metadata: Metadata = {
+  title: "Sign up",
+  description: "Create your BookMiadi account and start managing your bookings, staff, and customers — all in one beautiful platform.",
+  openGraph: {
+    title: "BookMiadi — Create your account",
+    description: "Start managing your bookings, staff, and customers with BookMiadi.",
+    images: ["/team-young-african-people-office-table-with-laptops_219728-4522.jpg"],
+  },
 }
 
 export default function SignupPage() {
